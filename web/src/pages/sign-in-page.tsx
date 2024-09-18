@@ -29,6 +29,7 @@ export default function SignInPage() {
   const { themeOption, setTheme } = useContext(ThemeContext);
 
   const login = useGoogleLogin({
+    flow: 'auth-code',
     onSuccess: (tokenResponse) => console.log(tokenResponse),
   });
 

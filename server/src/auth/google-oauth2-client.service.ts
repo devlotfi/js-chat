@@ -14,6 +14,7 @@ export class GoogleOAuth2ClientService {
     clientSecret: this.configService.getOrThrow<string>(
       'GOOGLE_OAUTH_CLIENT_SECRET',
     ),
+    redirectUri: 'http://localhost:5173',
   });
   public get client() {
     return this._client;

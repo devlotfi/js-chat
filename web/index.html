@@ -8,6 +8,30 @@
   </head>
   <body id="theme-provider">
     <div id="root"></div>
+    <script>
+      function getSystemTheme() {
+        if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        ) {
+          return 'DARK';
+        }
+        return 'LIGHT';
+      }
+
+      const theme = localStorage.getItem('THEME');
+      if (theme) {
+        const themeProvider = document.getElementById('theme-provider');
+        if (theme === 'DARK' || theme === 'LIGHT') {
+          themeProvider.dataset.theme = theme;
+        } else if (theme === 'SYSTEM') {
+          const systemTheme = getSystemTheme();
+          if (systemTheme === 'LIGHT' || systemTheme === 'DARK') {
+            themeProvider.dataset.theme = systemTheme;
+          }
+        }
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

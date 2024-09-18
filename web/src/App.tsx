@@ -1,10 +1,12 @@
-import { Button } from '@nextui-org/react';
+import { RouterProvider } from 'react-router-dom';
+import useRouter from './hooks/use-router';
 
 export default function App() {
+  const { router } = useRouter();
+
   return (
-    <div className="flex bg-background-100 text-foreground">
-      <h1 className="text-primary-500">lol</h1>
-      <Button color="default">Test btn</Button>
-    </div>
+    <main className="min-h-screen min-w-screen flex flex-col">
+      <RouterProvider router={router}></RouterProvider>
+    </main>
   );
 }

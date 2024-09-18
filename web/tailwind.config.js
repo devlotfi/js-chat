@@ -16,14 +16,33 @@ export default {
       themes: {
         light: {
           colors: {
-            default: {
-              DEFAULT: 'red',
-            },
             background: {
-              100: '#ff5',
+              DEFAULT: '#fff',
+              100: '#F3F2F2',
+              foreground: '#3F4654',
+            },
+            default: {
+              DEFAULT: '#F3F2F2',
             },
             primary: {
-              DEFAULT: '#32a952',
+              DEFAULT: '#4B7FE2',
+
+              foreground: '#fff',
+            },
+          },
+        },
+        dark: {
+          colors: {
+            background: {
+              DEFAULT: '#2B313E',
+              100: '#212631',
+              foreground: '#CED9EE',
+            },
+            default: {
+              DEFAULT: '#212631',
+            },
+            primary: {
+              DEFAULT: '#4B7FE2',
               foreground: '#fff',
             },
           },

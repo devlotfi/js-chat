@@ -32,6 +32,11 @@ export interface components {
             user: components["schemas"]["UserType"];
             accessToken: string;
         };
+        ApiError: {
+            /** @enum {string} */
+            message: "INVALID_OAUTH_TOKEN";
+            statusCode: number;
+        };
     };
     responses: never;
     parameters: never;
@@ -60,6 +65,14 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SignInResponseDTO"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
                 };
             };
         };

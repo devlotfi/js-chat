@@ -1,0 +1,7 @@
+{
+  "workspaces": [
+    "web",
+    "server"
+  ],
+  "packageManager": "yarn@4.5.0"
+}

@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { SignInDTO } from './dto/sign-in-dto';
 import { AuthService } from './auth.service';
 import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
 import { SignInResponseDTO } from './dto/sign-in-response-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { SignInRefreshTokenResponseDTO } from './dto/sign-in-refresh-token-response-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +20,32 @@ export class AuthController {
   })
   public async signIn(
     @Body() signInDto: SignInDTO,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<SignInResponseDTO> {
-    return await this.authService.signIn(signInDto, res);
+    return await this.authService.signIn(signInDto, req, res);
+  }
+
+  @Get('/sign-in/refresh-token')
+  @ApiOkResponse({
+    type: () => SignInRefreshTokenResponseDTO,
+  })
+  @ApiBadRequestResponse({
+    type: () => ApiExcpetion,
+  })
+  public async signInRefreshToken(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<SignInRefreshTokenResponseDTO> {
+    return await this.authService.signInRefreshToken(req, res);
+  }
+
+  @Post('/sign-out')
+  @ApiOkResponse()
+  public async signOut(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    await this.authService.signInRefreshToken(req, res);
   }
 }

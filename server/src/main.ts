@@ -10,6 +10,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService<EnvDefinition>);
 
+  app.enableCors({
+    origin: [configService.getOrThrow<string>('WEB_CLIENT_URL')],
+    credentials: true,
+  });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 

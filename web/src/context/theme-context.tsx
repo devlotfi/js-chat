@@ -58,7 +58,9 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   const applyTheme = (theme: ThemeOptions) => {
     const element = document.getElementById('theme-provider') as HTMLElement;
     if (theme === ThemeOptions.DARK || theme === ThemeOptions.LIGHT) {
-      element.className = theme === ThemeOptions.LIGHT ? 'light' : 'dark';
+      element.className = `bg-background text-foreground ${
+        theme === ThemeOptions.LIGHT ? 'light' : 'dark'
+      }`;
       setAppliedTheme(theme);
     } else if (theme === ThemeOptions.SYSTEM) {
       const systemTheme = getSystemTheme();
@@ -66,8 +68,9 @@ export function ThemeProvider({ children }: PropsWithChildren) {
         systemTheme === ThemeOptions.LIGHT ||
         systemTheme === ThemeOptions.DARK
       ) {
-        element.className =
-          systemTheme === ThemeOptions.LIGHT ? 'light' : 'dark';
+        element.className = `bg-background text-foreground ${
+          systemTheme === ThemeOptions.LIGHT ? 'light' : 'dark'
+        }`;
         setAppliedTheme(systemTheme);
       }
     }

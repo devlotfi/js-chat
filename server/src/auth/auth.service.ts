@@ -6,10 +6,13 @@ import { GoogleOAuth2ClientService } from './google-oauth2-client.service';
 import { ApiExcpetion } from 'src/shared/api-exception';
 import { ErrorMessages } from 'src/shared/error-messages';
 import { TokenService } from './token.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Constants } from 'src/shared/constants';
 import { TokenPayload } from 'google-auth-library';
 import { User } from '@prisma/client';
+import * as Cookies from 'cookies';
+import { SignInRefreshTokenResponseDTO } from './dto/sign-in-refresh-token-response-dto';
+import { JWTTokenPayload } from 'src/shared/token-payload';
 
 @Injectable()
 export class AuthService {
@@ -19,17 +22,22 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
-  private async authenthicate(user: User, res: Response) {
+  private async authenthicate(user: User, req: Request, res: Response) {
     const accessToken = await this.tokenService.generateAccessToken(user.id);
     const refreshToken = await this.tokenService.generateRefreshToken(user.id);
 
-    res.cookie(Constants.REFRESH_TOKEN_COOKIE_KEY, refreshToken);
+    const cookies = new Cookies(req, res);
+    cookies.set(Constants.REFRESH_TOKEN_COOKIE_KEY, refreshToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+    });
 
     return new SignInResponseDTO(user, accessToken);
   }
 
   public async signIn(
     signInDto: SignInDTO,
+    req: Request,
     res: Response,
   ): Promise<SignInResponseDTO> {
     let userData: TokenPayload;
@@ -42,8 +50,7 @@ export class AuthService {
           idToken: tokens.id_token,
         });
       userData = loginTicket.getPayload();
-    } catch (error) {
-      console.log(error);
+    } catch {
       throw new ApiExcpetion(
         ErrorMessages.INVALID_OAUTH_TOKEN,
         HttpStatus.BAD_REQUEST,
@@ -56,7 +63,7 @@ export class AuthService {
       },
     });
     if (existingUser) {
-      return this.authenthicate(existingUser, res);
+      return this.authenthicate(existingUser, req, res);
     }
 
     const user = await this.databaseService.user.create({
@@ -68,6 +75,45 @@ export class AuthService {
       },
     });
 
-    return this.authenthicate(user, res);
+    return this.authenthicate(user, req, res);
+  }
+
+  public async signInRefreshToken(
+    req: Request,
+    res: Response,
+  ): Promise<SignInRefreshTokenResponseDTO> {
+    const cookies = new Cookies(req, res);
+    const refreshToken = cookies.get(Constants.REFRESH_TOKEN_COOKIE_KEY);
+    if (!refreshToken) {
+      throw new ApiExcpetion(
+        ErrorMessages.INVALID_TOKEN,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    let payload: JWTTokenPayload;
+    try {
+      payload = await this.tokenService.verifyRefreshToken(refreshToken);
+    } catch {
+      throw new ApiExcpetion(
+        ErrorMessages.INVALID_TOKEN,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const user = await this.databaseService.user.findUniqueOrThrow({
+      where: {
+        id: payload.userId,
+      },
+    });
+
+    const accessToken = await this.tokenService.generateAccessToken(user.id);
+
+    return new SignInRefreshTokenResponseDTO(user, accessToken);
+  }
+
+  public async signOut(req: Request, res: Response): Promise<void> {
+    const cookies = new Cookies(req, res);
+    cookies.set(Constants.REFRESH_TOKEN_COOKIE_KEY, null);
   }
 }

@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react';
-import Hexagon from '../assets/svg/hexagon.svg';
+import BackgroundPattern from '../assets/svg/circuit-board.svg';
 import LogoFull from '../assets/svg/logo-full.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -19,25 +19,41 @@ import {
   faSun,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useContext } from 'react';
-import { ThemeContext } from '../context/theme.context';
+import { useContext, useEffect } from 'react';
+import { ThemeContext } from '../context/theme-context';
 import { ThemeOptions } from '../types/theme-options';
 import GoogleLogo from '../assets/svg/google.svg';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useMutation } from '@tanstack/react-query';
+import { SIGN_IN } from '../react-query/mutations';
+import { Constants } from '../constants';
 
 export default function SignInPage() {
   const { themeOption, setTheme } = useContext(ThemeContext);
+  const { mutate, isPending } = useMutation({
+    mutationFn: SIGN_IN,
+    onSuccess(data) {
+      sessionStorage.setItem(
+        Constants.ACCESS_TOKEN_STORAGE_KEY,
+        data.accessToken,
+      );
+    },
+  });
 
   const login = useGoogleLogin({
     flow: 'auth-code',
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
+    onSuccess: (tokenResponse) => mutate({ code: tokenResponse.code }),
   });
+
+  useEffect(() => {
+    console.log(localStorage.getItem(Constants.ACCESS_TOKEN_STORAGE_KEY));
+  }, []);
 
   return (
     <div
       style={{
-        backgroundImage: `url(${Hexagon})`,
-        backgroundSize: '7rem auto',
+        backgroundImage: `url(${BackgroundPattern})`,
+        backgroundSize: '15rem auto',
       }}
       className="flex flex-1"
     >
@@ -112,6 +128,7 @@ export default function SignInPage() {
           <Button
             className="px-[3rem] py-[1.5rem] mt-[2rem]"
             endContent={<img src={GoogleLogo} alt="google"></img>}
+            isLoading={isPending}
             onClick={() => login()}
           >
             Sign in with Google

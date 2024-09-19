@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { EnvDefinition } from 'src/shared/env-definition';
+import { JWTTokenPayload } from 'src/shared/token-payload';
 
 @Injectable()
 export class TokenService {
@@ -23,6 +24,24 @@ export class TokenService {
     return accessToken;
   }
 
+  public async verifyAccessToken(
+    accessToken: string,
+  ): Promise<JWTTokenPayload> {
+    try {
+      const payload = await this.jwtService.verifyAsync<JWTTokenPayload>(
+        accessToken,
+        {
+          secret: this.configService.getOrThrow<string>(
+            'JWT_ACCESS_TOKEN_SECRET',
+          ),
+        },
+      );
+      return payload;
+    } catch {
+      throw new Error('Invalid access token');
+    }
+  }
+
   public async generateRefreshToken(userId: string) {
     const accessToken = await this.jwtService.signAsync(
       { userId },
@@ -34,5 +53,23 @@ export class TokenService {
       },
     );
     return accessToken;
+  }
+
+  public async verifyRefreshToken(
+    refreshToken: string,
+  ): Promise<JWTTokenPayload> {
+    try {
+      const payload = await this.jwtService.verifyAsync<JWTTokenPayload>(
+        refreshToken,
+        {
+          secret: this.configService.getOrThrow<string>(
+            'JWT_ACCESS_TOKEN_SECRET',
+          ),
+        },
+      );
+      return payload;
+    } catch {
+      throw new Error('Invalid refresh token');
+    }
   }
 }

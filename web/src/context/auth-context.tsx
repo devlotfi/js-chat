@@ -1,10 +1,9 @@
 import { createContext, PropsWithChildren, useEffect } from 'react';
 import { components } from '../__generated__/schema';
-import { useQuery } from '@tanstack/react-query';
-import { SIGN_IN_REFRESH_TOKEN } from '../react-query/queries';
 import { Spinner } from '@nextui-org/react';
 import LogoCompact from '../assets/svg/logo-compact.svg';
 import { Constants } from '../constants';
+import { $api } from '../openapi-client';
 
 interface AuthContext {
   user: components['schemas']['UserDTO'] | null;
@@ -17,14 +16,21 @@ const initialValue: AuthContext = {
 export const AuthContext = createContext(initialValue);
 
 export default function AuthProvider({ children }: PropsWithChildren) {
-  const { isLoading, data } = useQuery({
-    queryKey: [SIGN_IN_REFRESH_TOKEN.name],
-    queryFn: SIGN_IN_REFRESH_TOKEN,
-  });
+  const { isLoading, data } = $api.useQuery(
+    'get',
+    '/auth/sign-in/refresh-token',
+    {
+      credentials: 'include',
+    },
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         Constants.ACCESS_TOKEN_STORAGE_KEY,
         data.accessToken,
       );

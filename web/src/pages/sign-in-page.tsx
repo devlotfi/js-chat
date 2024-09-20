@@ -24,29 +24,38 @@ import { ThemeContext } from '../context/theme-context';
 import { ThemeOptions } from '../types/theme-options';
 import GoogleLogo from '../assets/svg/google.svg';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useMutation } from '@tanstack/react-query';
-import { SIGN_IN } from '../react-query/mutations';
 import { Constants } from '../constants';
+import { $api } from '../openapi-client';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function SignInPage() {
   const { themeOption, setTheme } = useContext(ThemeContext);
-  const { mutate, isPending } = useMutation({
-    mutationFn: SIGN_IN,
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = $api.useMutation('post', '/auth/sign-in', {
     onSuccess(data) {
       sessionStorage.setItem(
         Constants.ACCESS_TOKEN_STORAGE_KEY,
         data.accessToken,
       );
+      queryClient.invalidateQueries({
+        queryKey: ['get', '/auth/sign-in/refresh-token'],
+      });
     },
   });
 
   const login = useGoogleLogin({
     flow: 'auth-code',
-    onSuccess: (tokenResponse) => mutate({ code: tokenResponse.code }),
+    onSuccess: (tokenResponse) =>
+      mutate({
+        body: {
+          code: tokenResponse.code,
+        },
+        credentials: 'include',
+      }),
   });
 
   useEffect(() => {
-    console.log(localStorage.getItem(Constants.ACCESS_TOKEN_STORAGE_KEY));
+    console.log(sessionStorage.getItem(Constants.ACCESS_TOKEN_STORAGE_KEY));
   }, []);
 
   return (

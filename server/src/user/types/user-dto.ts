@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
-export class UserDTO {
+export class UserDTO implements Partial<User> {
   @ApiProperty()
   public id: string;
 
@@ -14,10 +14,9 @@ export class UserDTO {
   @ApiProperty()
   public profilePicture: string;
 
-  public constructor(user: User) {
-    this.id = this.id;
-    this.username = user.username;
-    this.email = user.email;
-    this.profilePicture = user.profilePicture;
-  }
+  @ApiProperty({ type: () => Date })
+  public createdAt: Date;
+
+  @ApiProperty({ type: () => Date })
+  public updatedAt: Date;
 }

@@ -61,6 +61,14 @@ export class AuthService {
       where: {
         id: userData.sub,
       },
+      select: {
+        id: true,
+        username: true,
+        profilePicture: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
     if (existingUser) {
       return this.authenthicate(existingUser, req, res);
@@ -72,6 +80,14 @@ export class AuthService {
         username: userData.name,
         email: userData.email,
         profilePicture: userData.picture,
+      },
+      select: {
+        id: true,
+        username: true,
+        profilePicture: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
@@ -85,10 +101,7 @@ export class AuthService {
     const cookies = new Cookies(req, res);
     const refreshToken = cookies.get(Constants.REFRESH_TOKEN_COOKIE_KEY);
     if (!refreshToken) {
-      throw new ApiExcpetion(
-        ErrorMessages.INVALID_TOKEN,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new ApiExcpetion(ErrorMessages.NO_TOKEN, HttpStatus.BAD_REQUEST);
     }
 
     let payload: JWTTokenPayload;
@@ -104,6 +117,14 @@ export class AuthService {
     const user = await this.databaseService.user.findUniqueOrThrow({
       where: {
         id: payload.userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        profilePicture: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 

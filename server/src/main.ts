@@ -5,6 +5,7 @@ import { EnvDefinition } from './shared/env-definition';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+import { SocketIOAPIDefinition } from './shared/socket-io-api-definition';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,11 +19,14 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('JsChat api')
     .setDescription('JsChat backen server')
     .setVersion('1.0')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    extraModels: [SocketIOAPIDefinition],
+  });
   SwaggerModule.setup('api', app, document);
 
   await app.listen(configService.getOrThrow<number>('PORT'));

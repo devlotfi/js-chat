@@ -1,4 +1,5 @@
 export enum ErrorMessages {
+  NO_TOKEN = 'NO_TOKEN',
   INVALID_OAUTH_TOKEN = 'INVALID_OAUTH_TOKEN',
   INVALID_TOKEN = 'INVALID_TOKEN',
 }

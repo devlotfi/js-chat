@@ -46,6 +46,6 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<void> {
-    await this.authService.signInRefreshToken(req, res);
+    await this.authService.signOut(req, res);
   }
 }

@@ -1,10 +1,16 @@
 import { Outlet } from 'react-router-dom';
+import ChatNavbar from '../components/chat-navbar';
+import Sidebar from '../components/sidebar';
 
-export default function AppLayout() {
+export default function ChatLayout() {
   return (
-    <div className="flex">
-      <h1>chat</h1>
-      <Outlet></Outlet>
-    </div>
+    <>
+      <ChatNavbar></ChatNavbar>
+
+      <div className="flex flex-1 max-h-[calc(100vh-4.1rem)] relative overflow-y-auto">
+        <Sidebar></Sidebar>
+        <Outlet></Outlet>
+      </div>
+    </>
   );
 }

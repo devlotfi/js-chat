@@ -2,7 +2,8 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import SignInPage from '../pages/sign-in-page';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context';
-import AppLayout from '../layout/app-layout';
+import ChatLayout from '../layout/app-layout';
+import ChatLayoutContextProvider from '../context/chat-layout-context';
 
 export default function useRouter() {
   const { user } = useContext(AuthContext);
@@ -32,11 +33,16 @@ export default function useRouter() {
     },
     {
       path: '/app',
-      element: authGuard(true, <AppLayout></AppLayout>),
+      element: authGuard(
+        true,
+        <ChatLayoutContextProvider>
+          <ChatLayout></ChatLayout>
+        </ChatLayoutContextProvider>,
+      ),
       children: [
         {
           path: '/app',
-          element: <h1>home</h1>,
+          element: <div className="flex flex-1 bg-background-100"></div>,
         },
       ],
     },

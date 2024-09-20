@@ -47,6 +47,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ConversationsController_conversations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/messages/{conversationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MessagesController_messages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["InvitationsController_recievedInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -59,6 +107,10 @@ export interface components {
             username: string;
             email: string;
             profilePicture: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
         };
         SignInResponseDTO: {
             user: components["schemas"]["UserDTO"];
@@ -66,12 +118,45 @@ export interface components {
         };
         ApiExcpetion: {
             /** @enum {string} */
-            message: "INVALID_OAUTH_TOKEN" | "INVALID_TOKEN";
+            message: "NO_TOKEN" | "INVALID_OAUTH_TOKEN" | "INVALID_TOKEN";
             statusCode: number;
         };
         SignInRefreshTokenResponseDTO: {
             user: components["schemas"]["UserDTO"];
             accessToken: string;
+        };
+        UserPublicDTO: {
+            id: string;
+            username: string;
+            profilePicture: string;
+        };
+        ConversationUserDTO: {
+            user: components["schemas"]["UserPublicDTO"];
+        };
+        ConversationDTO: {
+            id: string;
+            /** Format: date-time */
+            createdAt: string;
+            conversationUsers: components["schemas"]["ConversationUserDTO"][];
+        };
+        MessageDTO: {
+            id: string;
+            text: string;
+            isDeleted: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            user: components["schemas"]["UserPublicDTO"];
+        };
+        InvitationDTO: {
+            id: string;
+            /** Format: date-time */
+            createdAt: string;
+            fromUser: components["schemas"]["UserPublicDTO"];
+            toUser: components["schemas"]["UserPublicDTO"];
+        };
+        SocketIOAPIDefinition: {
+            /** @enum {string} */
+            messages: "MESSAGE" | "INVITATION";
         };
     };
     responses: never;
@@ -154,6 +239,65 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    ConversationsController_conversations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationDTO"][];
+                };
+            };
+        };
+    };
+    MessagesController_messages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageDTO"][];
+                };
+            };
+        };
+    };
+    InvitationsController_recievedInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationDTO"][];
+                };
             };
         };
     };

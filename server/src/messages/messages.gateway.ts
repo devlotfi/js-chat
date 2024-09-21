@@ -4,7 +4,12 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 
-@WebSocketGateway()
+@WebSocketGateway(3001, {
+  transports: ['websocket'],
+  cors: {
+    origin: '*',
+  },
+})
 export class MessagesGateway implements OnGatewayConnection {
   public handleConnection(client: any, ...args: any[]) {}
 

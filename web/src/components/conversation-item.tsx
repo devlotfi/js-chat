@@ -1,4 +1,4 @@
-import { Avatar, Card, CardBody, cn } from '@nextui-org/react';
+import { Avatar, Button, cn } from '@nextui-org/react';
 import { components } from '../__generated__/schema';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
@@ -22,24 +22,22 @@ export default function ConversationItem({ conversation }: Props) {
   };
 
   return (
-    <Card
-      isPressable
-      shadow="none"
-      className={cn(conversationId === conversation.id && 'bg-background-100')}
+    <Button
+      className={cn('h-[4rem]')}
       onPress={() => {
         navigate(`/chat/conversation/${conversation.id}`);
         setSidebarOpen(false);
       }}
+      variant={conversationId === conversation.id ? 'flat' : 'solid'}
+      color={conversationId === conversation.id ? 'primary' : 'default'}
     >
-      <CardBody className="flex">
-        <div className="flex items-center space-x-3">
-          <Avatar
-            src={getUser()?.profilePicture}
-            imgProps={{ referrerPolicy: 'no-referrer' }}
-          />
-          <div className="flex flex-1">{getUser()?.username}</div>
-        </div>
-      </CardBody>
-    </Card>
+      <div className="flex flex-1 items-center space-x-3">
+        <Avatar
+          src={getUser()?.profilePicture}
+          imgProps={{ referrerPolicy: 'no-referrer' }}
+        />
+        <div className="flex flex-1">{getUser()?.username}</div>
+      </div>
+    </Button>
   );
 }

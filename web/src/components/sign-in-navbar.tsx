@@ -32,7 +32,7 @@ export default function SignInNavbar() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Dropdown className="bg-background">
+          <Dropdown>
             <DropdownTrigger>
               <Button
                 color="primary"

@@ -31,7 +31,7 @@ export default function ChatNavbarDropdown({ openSignOutModal }: Props) {
   }
 
   return (
-    <Dropdown className="bg-background">
+    <Dropdown>
       <DropdownTrigger>
         <Avatar
           color="primary"

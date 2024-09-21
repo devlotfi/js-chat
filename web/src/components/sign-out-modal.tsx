@@ -6,8 +6,7 @@ import {
   ModalFooter,
   Button,
 } from '@nextui-org/react';
-import { $api } from '../openapi-client';
-import { Constants } from '../constants';
+import { $api, InMemoryStore } from '../openapi-client';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
@@ -20,9 +19,7 @@ export default function SignOutModal({ isOpen, onOpenChange }: Props) {
 
   const { mutate, isPending } = $api.useMutation('post', '/auth/sign-out', {
     onSuccess() {
-      console.log('success');
-
-      sessionStorage.removeItem(Constants.ACCESS_TOKEN_STORAGE_KEY);
+      InMemoryStore.accessToken = undefined;
       queryClient.resetQueries({
         queryKey: ['get', '/auth/sign-in/refresh-token'],
       });
@@ -30,11 +27,7 @@ export default function SignOutModal({ isOpen, onOpenChange }: Props) {
   });
 
   return (
-    <Modal
-      className="bg-background"
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-    >
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>

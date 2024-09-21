@@ -1,9 +1,18 @@
 import createFetchClient, { Middleware } from 'openapi-fetch';
 import { paths } from './__generated__/schema';
 import createClient from 'openapi-react-query';
-import { Constants } from './constants';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+
+export class InMemoryStore {
+  private static _accessToken?: string | undefined;
+  public static get accessToken(): string | undefined {
+    return InMemoryStore._accessToken;
+  }
+  public static set accessToken(value: string | undefined) {
+    InMemoryStore._accessToken = value;
+  }
+}
 
 export const fetchClient = createFetchClient<paths>({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -11,9 +20,9 @@ export const fetchClient = createFetchClient<paths>({
 
 const authMiddelware: Middleware = {
   async onRequest({ request }) {
-    let accessToken = sessionStorage.getItem(
-      Constants.ACCESS_TOKEN_STORAGE_KEY,
-    );
+    let accessToken = InMemoryStore.accessToken;
+    console.log(accessToken);
+
     console.log('mid');
 
     if (!accessToken) {
@@ -37,12 +46,10 @@ const authMiddelware: Middleware = {
         paths['/auth/sign-in/refresh-token']['get']['responses']['200']['content']['application/json']
       >('/auth/sign-in/refresh-token', {
         withCredentials: true,
+        baseURL: import.meta.env.VITE_API_URL,
       });
 
-      sessionStorage.setItem(
-        Constants.ACCESS_TOKEN_STORAGE_KEY,
-        data.accessToken,
-      );
+      InMemoryStore.accessToken = data.accessToken;
       accessToken = data.accessToken;
     }
     request.headers.set('Authorization', `Bearer ${accessToken}`);

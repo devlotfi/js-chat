@@ -18,7 +18,7 @@ export class TokenService {
         secret: this.configService.getOrThrow<string>(
           'JWT_ACCESS_TOKEN_SECRET',
         ),
-        expiresIn: '10min',
+        expiresIn: '10s',
       },
     );
     return accessToken;

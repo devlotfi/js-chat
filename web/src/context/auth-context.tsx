@@ -2,8 +2,7 @@ import { createContext, PropsWithChildren, useEffect } from 'react';
 import { components } from '../__generated__/schema';
 import { Spinner } from '@nextui-org/react';
 import LogoCompact from '../assets/svg/logo-compact.svg';
-import { Constants } from '../constants';
-import { $api } from '../openapi-client';
+import { $api, InMemoryStore } from '../openapi-client';
 
 interface AuthContext {
   user: components['schemas']['UserDTO'] | null;
@@ -25,15 +24,16 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     {
       retry: false,
       refetchOnWindowFocus: false,
+      select(data) {
+        InMemoryStore.accessToken = data.accessToken;
+        return data;
+      },
     },
   );
 
   useEffect(() => {
     if (data) {
-      sessionStorage.setItem(
-        Constants.ACCESS_TOKEN_STORAGE_KEY,
-        data.accessToken,
-      );
+      InMemoryStore.accessToken = data.accessToken;
     }
   }, [data]);
 

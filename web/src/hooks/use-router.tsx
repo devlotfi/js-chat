@@ -4,6 +4,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context';
 import ChatLayout from '../layout/app-layout';
 import ChatLayoutContextProvider from '../context/chat-layout-context';
+import ChooseConversation from '../components/choose-conversation';
+import ConversationLayout from '../layout/conversation-layout';
 
 export default function useRouter() {
   const { user } = useContext(AuthContext);
@@ -18,7 +20,7 @@ export default function useRouter() {
       if (!user) {
         return element;
       }
-      return <Navigate to={'/app'}></Navigate>;
+      return <Navigate to={'/chat'}></Navigate>;
     }
   };
 
@@ -32,7 +34,7 @@ export default function useRouter() {
       element: authGuard(false, <SignInPage></SignInPage>),
     },
     {
-      path: '/app',
+      path: '/chat',
       element: authGuard(
         true,
         <ChatLayoutContextProvider>
@@ -41,8 +43,12 @@ export default function useRouter() {
       ),
       children: [
         {
-          path: '/app',
-          element: <div className="flex flex-1 bg-background-100"></div>,
+          path: '/chat',
+          element: <ChooseConversation></ChooseConversation>,
+        },
+        {
+          path: '/chat/conversation/:conversationId',
+          element: <ConversationLayout></ConversationLayout>,
         },
       ],
     },

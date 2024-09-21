@@ -2,11 +2,9 @@ import { Button } from '@nextui-org/react';
 import BackgroundPattern from '../assets/svg/circuit-board.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
 import GoogleLogo from '../assets/svg/google.svg';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Constants } from '../constants';
-import { $api } from '../openapi-client';
+import { $api, InMemoryStore } from '../openapi-client';
 import { useQueryClient } from '@tanstack/react-query';
 import SignInNavbar from '../components/sign-in-navbar';
 
@@ -14,10 +12,7 @@ export default function SignInPage() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = $api.useMutation('post', '/auth/sign-in', {
     onSuccess(data) {
-      sessionStorage.setItem(
-        Constants.ACCESS_TOKEN_STORAGE_KEY,
-        data.accessToken,
-      );
+      InMemoryStore.accessToken = data.accessToken;
       queryClient.invalidateQueries({
         queryKey: ['get', '/auth/sign-in/refresh-token'],
       });
@@ -34,10 +29,6 @@ export default function SignInPage() {
         credentials: 'include',
       }),
   });
-
-  useEffect(() => {
-    console.log(sessionStorage.getItem(Constants.ACCESS_TOKEN_STORAGE_KEY));
-  }, []);
 
   return (
     <div

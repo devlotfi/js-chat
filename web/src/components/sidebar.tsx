@@ -31,17 +31,13 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'flex h-full w-full md:w-[23rem] lg:h-full overflow-x-hidden absolute lg:flex bg-background max-h-[calc(100vh-4.1rem)] duration-300',
+        'flex max-h-[calc(100vh-4.1rem)] h-full lg:h-auto w-full md:w-[23rem] overflow-x-hidden absolute lg:flex lg:static bg-background duration-300',
         !sidebarOpen && 'ml-[-100%] md:ml-[-23rem]',
       )}
     >
       <div className="flex flex-1">
         <div className="flex space-y-2 w-[3.5rem] flex-col justify-center items-center border-r border-divider">
-          <Tooltip
-            content="Conversations"
-            placement="right"
-            className="bg-background"
-          >
+          <Tooltip content="Conversations" placement="right">
             <Button
               isIconOnly
               onPress={() => setTab('CONVERSATIONS')}
@@ -51,11 +47,7 @@ export default function Sidebar() {
             </Button>
           </Tooltip>
 
-          <Tooltip
-            content="Recieved invitations"
-            placement="right"
-            className="bg-background"
-          >
+          <Tooltip content="Recieved invitations" placement="right">
             <Button
               isIconOnly
               onPress={() => setTab('RECIEVED_INVITATIONS')}
@@ -64,11 +56,7 @@ export default function Sidebar() {
               <FontAwesomeIcon icon={faShare}></FontAwesomeIcon>
             </Button>
           </Tooltip>
-          <Tooltip
-            content="Sent invitations"
-            placement="right"
-            className="bg-background"
-          >
+          <Tooltip content="Sent invitations" placement="right">
             <Button
               isIconOnly
               onPress={() => setTab('SENT_INVITATIONS')}

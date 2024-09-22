@@ -11,12 +11,6 @@ export class DatabaseService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  public constructor() {
-    super({
-      log: ['query'],
-    });
-  }
-
   private readonly logger = new Logger(DatabaseService.name);
 
   public async onModuleInit() {

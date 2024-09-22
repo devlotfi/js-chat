@@ -1,18 +1,13 @@
-import {
-  OnGatewayConnection,
-  SubscribeMessage,
-  WebSocketGateway,
-} from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { Socket } from 'socket.io';
 
-@WebSocketGateway(3001, {
+@WebSocketGateway(5000, {
   transports: ['websocket'],
   cors: {
     origin: '*',
   },
 })
-export class MessagesGateway implements OnGatewayConnection {
-  public handleConnection(client: any, ...args: any[]) {}
-
+export class MessagesGateway {
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
     return 'Hello world!';

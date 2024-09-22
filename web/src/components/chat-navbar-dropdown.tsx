@@ -39,6 +39,7 @@ export default function ChatNavbarDropdown({ openSignOutModal }: Props) {
           src={user.profilePicture}
           imgProps={{ referrerPolicy: 'no-referrer' }}
           as="button"
+          size="sm"
         ></Avatar>
       </DropdownTrigger>
       <DropdownMenu

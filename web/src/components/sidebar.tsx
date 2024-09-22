@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { ChatLayoutContext } from '../context/chat-layout-context';
+import { ChatContext } from '../context/chat-context';
 import { Button, cn, Tooltip } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,7 +12,7 @@ import RecievedInvitationsList from './recieved-invitations-list';
 import SentInvitationsList from './sent-invitations-list';
 
 export default function Sidebar() {
-  const { sidebarOpen } = useContext(ChatLayoutContext);
+  const { sidebarOpen } = useContext(ChatContext);
   const [tab, setTab] = useState<
     'CONVERSATIONS' | 'SENT_INVITATIONS' | 'RECIEVED_INVITATIONS'
   >('CONVERSATIONS');
@@ -31,7 +31,7 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'flex max-h-[calc(100vh-4.1rem)] h-full lg:h-auto w-full md:w-[23rem] overflow-x-hidden absolute lg:flex lg:static bg-background duration-300',
+        'flex max-h-[calc(100vh-3.3rem)] h-full lg:h-auto w-full md:w-[23rem] overflow-x-hidden absolute lg:flex lg:static bg-background duration-300',
         !sidebarOpen && 'ml-[-100%] md:ml-[-23rem]',
       )}
     >

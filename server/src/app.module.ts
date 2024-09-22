@@ -9,6 +9,15 @@ import { InvitationsModule } from './invitations/invitations.module';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), DatabaseModule, AuthModule, UserModule, ConversationsModule, MessagesModule, InvitationsModule, RedisModule],
+  imports: [
+    ConfigModule.forRoot(),
+    DatabaseModule,
+    AuthModule,
+    UserModule,
+    ConversationsModule,
+    MessagesModule,
+    InvitationsModule,
+    RedisModule,
+  ],
 })
 export class AppModule {}

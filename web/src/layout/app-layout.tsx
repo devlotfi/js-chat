@@ -7,7 +7,7 @@ export default function ChatLayout() {
     <>
       <ChatNavbar></ChatNavbar>
 
-      <div className="flex flex-1 max-h-[calc(100vh-4.1rem)] relative overflow-y-auto">
+      <div className="flex flex-1 max-h-[calc(100vh-3.3rem)] relative overflow-y-auto">
         <Sidebar></Sidebar>
         <Outlet></Outlet>
       </div>

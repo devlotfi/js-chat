@@ -4,16 +4,16 @@ import { Button, cn, useDisclosure } from '@nextui-org/react';
 import LogoFull from '../assets/svg/logo-full.svg';
 import LogoCompact from '../assets/svg/logo-compact.svg';
 import { useContext } from 'react';
-import { ChatLayoutContext } from '../context/chat-layout-context';
+import { ChatContext } from '../context/chat-context';
 import SignOutModal from './sign-out-modal';
 import ChatNavbarDropdown from './chat-navbar-dropdown';
 
 export default function ChatNavbar() {
-  const { sidebarOpen, setSidebarOpen } = useContext(ChatLayoutContext);
+  const { sidebarOpen, setSidebarOpen } = useContext(ChatContext);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="flex min-h-[4.1rem] relative justify-center items-center border-b border-divider">
+    <div className="flex min-h-[3.3rem] relative justify-center items-center border-b border-divider">
       <div className="absolute left-[0.5rem]">
         <Button isIconOnly onClick={() => setSidebarOpen(!sidebarOpen)}>
           <FontAwesomeIcon

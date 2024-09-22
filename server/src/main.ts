@@ -14,11 +14,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService<EnvDefinition>);
   const redisService = app.get(RedisService);
 
-  // register socket.io redis adapter
-  const redisIoAdapter = new RedisIoAdapter(app);
-  await redisIoAdapter.makeAdapter(redisService.client);
-  app.useWebSocketAdapter(redisIoAdapter);
-
   app.enableCors({
     origin: [configService.getOrThrow<string>('WEB_CLIENT_URL')],
     credentials: true,

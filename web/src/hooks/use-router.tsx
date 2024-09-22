@@ -3,7 +3,7 @@ import SignInPage from '../pages/sign-in-page';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context';
 import ChatLayout from '../layout/app-layout';
-import ChatLayoutContextProvider from '../context/chat-layout-context';
+import ChatContextProvider from '../context/chat-context';
 import ChooseConversation from '../components/choose-conversation';
 import ConversationLayout from '../layout/conversation-layout';
 
@@ -37,9 +37,9 @@ export default function useRouter() {
       path: '/chat',
       element: authGuard(
         true,
-        <ChatLayoutContextProvider>
+        <ChatContextProvider>
           <ChatLayout></ChatLayout>
-        </ChatLayoutContextProvider>,
+        </ChatContextProvider>,
       ),
       children: [
         {

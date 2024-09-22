@@ -2,7 +2,7 @@ import { Avatar, Button, cn } from '@nextui-org/react';
 import { components } from '../__generated__/schema';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
-import { ChatLayoutContext } from '../context/chat-layout-context';
+import { ChatContext } from '../context/chat-context';
 
 interface Props {
   conversation: components['schemas']['ConversationDTO'];
@@ -11,7 +11,7 @@ interface Props {
 export default function ConversationItem({ conversation }: Props) {
   const navigate = useNavigate();
   const { conversationId } = useParams();
-  const { setSidebarOpen } = useContext(ChatLayoutContext);
+  const { setSidebarOpen } = useContext(ChatContext);
 
   const getUser = () => {
     const conversationUser = conversation.conversationUsers[0];

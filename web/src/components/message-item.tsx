@@ -14,6 +14,11 @@ export default function MessageItem({ message }: Props) {
     throw new Error('No user');
   }
 
+  const formatDate = () => {
+    const date = new Date(message.createdAt);
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+  };
+
   return (
     <div
       className={cn(
@@ -32,6 +37,7 @@ export default function MessageItem({ message }: Props) {
           color="primary"
           isBordered={message.user.id === user.id}
           imgProps={{ referrerPolicy: 'no-referrer' }}
+          size="sm"
         ></Avatar>
         <div
           className={cn(
@@ -41,9 +47,7 @@ export default function MessageItem({ message }: Props) {
         >
           {message.text}
         </div>
-        <div className="flex opacity-50 text-[9pt]">
-          {JSON.stringify(message.createdAt)}
-        </div>
+        <div className="flex opacity-50 text-[9pt]">{formatDate()}</div>
       </div>
     </div>
   );

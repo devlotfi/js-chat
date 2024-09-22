@@ -2,10 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { MessageDTO } from './dto/message-dto';
 import { SendMessageDTO } from './dto/send-message-dto';
+import { MessagesGateway } from './messages.gateway';
+import { IncomingMessageEvent } from './dto/incoming-message-event';
 
 @Injectable()
 export class MessagesService {
-  public constructor(private readonly databaseService: DatabaseService) {}
+  public constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly messagesGateway: MessagesGateway,
+  ) {}
 
   public async messages(
     conversationId: string,
@@ -57,17 +62,6 @@ export class MessagesService {
             },
           },
         },
-        select: {
-          conversationUsers: {
-            where: {
-              NOT: {
-                userId: {
-                  equals: userId,
-                },
-              },
-            },
-          },
-        },
       });
 
     const message = await this.databaseService.message.create({
@@ -90,6 +84,10 @@ export class MessagesService {
         },
       },
     });
+
+    this.messagesGateway.server
+      .to(conversation.id)
+      .emit(IncomingMessageEvent.eventType, message);
 
     return message;
   }

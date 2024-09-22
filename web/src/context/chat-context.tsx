@@ -5,6 +5,9 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '../types/ws-api-definition';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { components } from '../__generated__/schema';
 
 interface ChatContext {
   sidebarOpen: boolean;
@@ -19,6 +22,8 @@ const initialValue: ChatContext = {
 export const ChatContext = createContext(initialValue);
 
 export default function ChatContextProvider({ children }: PropsWithChildren) {
+  const queryClient = useQueryClient();
+  const { conversationId } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(
     initialValue.sidebarOpen,
   );
@@ -42,16 +47,29 @@ export default function ChatContextProvider({ children }: PropsWithChildren) {
       console.log('disconnect');
     });
 
-    socket.emit('SEND_MESSAGE', { text: 'lol', to: 'to' }, (res) => {
-      console.log(res);
+    socket.on('INCOMING_MESSAGE', (message) => {
+      queryClient.setQueryData(
+        [
+          'get',
+          '/messages/{conversationId}',
+          {
+            params: {
+              path: {
+                conversationId,
+              },
+            },
+          },
+        ],
+        (messages: components['schemas']['MessageDTO'][]) => {
+          return [...messages, message];
+        },
+      );
     });
-
-    socket.on('INCOMING_MESSAGE', () => {});
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [conversationId, queryClient]);
 
   return (
     <ChatContext.Provider value={{ sidebarOpen, setSidebarOpen }}>

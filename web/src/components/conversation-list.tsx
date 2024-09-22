@@ -24,7 +24,7 @@ export default function ConversationList() {
 
   return (
     <div className="flex flex-col flex-1 p-[1rem]">
-      <div className="flex items-center space-x-3 text-[15pt] font-bold mb-[2rem]">
+      <div className="flex items-center space-x-3 text-[15pt] font-bold mb-[1rem] ml-[0.5rem]">
         <FontAwesomeIcon icon={faMessage}></FontAwesomeIcon>
         <div className="flex">Messages</div>
       </div>

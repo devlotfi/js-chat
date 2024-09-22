@@ -76,24 +76,8 @@ export default function ConversationPage() {
     'post',
     '/messages/{conversationId}',
     {
-      onSuccess(data) {
+      onSuccess() {
         resetForm();
-        queryClient.setQueryData(
-          [
-            'get',
-            '/messages/{conversationId}',
-            {
-              params: {
-                path: {
-                  conversationId,
-                },
-              },
-            },
-          ],
-          (messages: components['schemas']['MessageDTO'][]) => {
-            return [...messages, data];
-          },
-        );
       },
     },
   );

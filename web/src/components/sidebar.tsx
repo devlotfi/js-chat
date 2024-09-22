@@ -4,6 +4,7 @@ import { Button, cn, Tooltip } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMessage,
+  faSearch,
   faShare,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +15,10 @@ import SentInvitationsList from './sent-invitations-list';
 export default function Sidebar() {
   const { sidebarOpen } = useContext(ChatContext);
   const [tab, setTab] = useState<
-    'CONVERSATIONS' | 'SENT_INVITATIONS' | 'RECIEVED_INVITATIONS'
+    | 'CONVERSATIONS'
+    | 'SENT_INVITATIONS'
+    | 'RECIEVED_INVITATIONS'
+    | 'USER_SEARCH'
   >('CONVERSATIONS');
 
   const renderContent = () => {
@@ -46,14 +50,22 @@ export default function Sidebar() {
               <FontAwesomeIcon icon={faMessage}></FontAwesomeIcon>
             </Button>
           </Tooltip>
-
+          <Tooltip content="Recieved invitations" placement="right">
+            <Button
+              isIconOnly
+              onPress={() => setTab('USER_SEARCH')}
+              color={tab === 'USER_SEARCH' ? 'primary' : 'default'}
+            >
+              <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+            </Button>
+          </Tooltip>
           <Tooltip content="Recieved invitations" placement="right">
             <Button
               isIconOnly
               onPress={() => setTab('RECIEVED_INVITATIONS')}
               color={tab === 'RECIEVED_INVITATIONS' ? 'primary' : 'default'}
             >
-              <FontAwesomeIcon icon={faShare}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faUserGroup}></FontAwesomeIcon>
             </Button>
           </Tooltip>
           <Tooltip content="Sent invitations" placement="right">
@@ -62,7 +74,7 @@ export default function Sidebar() {
               onPress={() => setTab('SENT_INVITATIONS')}
               color={tab === 'SENT_INVITATIONS' ? 'primary' : 'default'}
             >
-              <FontAwesomeIcon icon={faUserGroup}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faShare}></FontAwesomeIcon>
             </Button>
           </Tooltip>
         </div>

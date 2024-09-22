@@ -3,6 +3,7 @@ import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { WsAuthPayload } from 'src/auth/dto/ws-auth-dto';
 import { TokenService } from 'src/auth/token.service';
+import { DatabaseService } from 'src/database/database.service';
 import { RedisPrefixes } from 'src/redis/redis-prefixes';
 import { RedisService } from 'src/redis/redis.service';
 
@@ -12,6 +13,7 @@ export class WsSessionService
 {
   public constructor(
     private readonly redisService: RedisService,
+    private readonly databaseService: DatabaseService,
     private readonly tokenService: TokenService,
   ) {}
 
@@ -21,23 +23,16 @@ export class WsSessionService
       const { accessToken } = client.handshake.auth as WsAuthPayload;
       const { userId } = await this.tokenService.verifyAccessToken(accessToken);
 
-      let userConnections = await this.redisService.client.get(
-        RedisPrefixes.USER_CONNECTIONS(userId),
+      const userConversations =
+        await this.databaseService.conversationUser.findMany({
+          where: {
+            userId,
+          },
+        });
+      const conversationIds = userConversations.map(
+        (conversation) => conversation.conversationId,
       );
-      let connectionsArray: string[];
-      if (userConnections) {
-        connectionsArray = JSON.parse(userConnections);
-        connectionsArray.push(client.id);
-      } else {
-        connectionsArray = [client.id];
-      }
-      userConnections = JSON.stringify(connectionsArray);
-      await this.redisService.client.set(
-        RedisPrefixes.USER_CONNECTIONS(userId),
-        userConnections,
-        'EX',
-        3600,
-      );
+      client.join(conversationIds);
     } catch {
       client.disconnect(true);
     }
@@ -50,25 +45,7 @@ export class WsSessionService
       const { accessToken } = client.handshake.auth as WsAuthPayload;
       const { userId } = await this.tokenService.decodeAccessToken(accessToken);
 
-      let userConnections = await this.redisService.client.get(
-        RedisPrefixes.USER_CONNECTIONS(userId),
-      );
-      let connectionsArray: string[];
-      if (userConnections) {
-        connectionsArray = JSON.parse(userConnections);
-        connectionsArray = connectionsArray.filter(
-          (connection) => connection !== client.id,
-        );
-      } else {
-        return;
-      }
-      userConnections = JSON.stringify(connectionsArray);
-      await this.redisService.client.set(
-        RedisPrefixes.USER_CONNECTIONS(userId),
-        userConnections,
-        'EX',
-        3600,
-      );
+      //handle leave rooms
     } catch (error) {
       console.log(error);
 

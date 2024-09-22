@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { MessageDTO } from './dto/message-dto';
+import { SendMessageDTO } from './dto/send-message-dto';
 
 @Injectable()
 export class MessagesService {
@@ -10,9 +11,6 @@ export class MessagesService {
     conversationId: string,
     userId: string,
   ): Promise<MessageDTO[]> {
-    console.log(conversationId, userId);
-
-    // chacking if the user is part of the conversation
     await this.databaseService.conversationUser.findFirstOrThrow({
       where: {
         conversationId,
@@ -25,7 +23,7 @@ export class MessagesService {
         conversationId,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
       select: {
         id: true,
@@ -42,5 +40,57 @@ export class MessagesService {
       },
     });
     return messages;
+  }
+
+  public async sendMessage(
+    sendMessageDto: SendMessageDTO,
+    conversationId: string,
+    userId: string,
+  ): Promise<MessageDTO> {
+    const conversation =
+      await this.databaseService.conversation.findUniqueOrThrow({
+        where: {
+          id: conversationId,
+          conversationUsers: {
+            some: {
+              userId,
+            },
+          },
+        },
+        select: {
+          conversationUsers: {
+            where: {
+              NOT: {
+                userId: {
+                  equals: userId,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    const message = await this.databaseService.message.create({
+      data: {
+        userId,
+        conversationId,
+        text: sendMessageDto.text,
+      },
+      select: {
+        id: true,
+        text: true,
+        isDeleted: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+            profilePicture: true,
+          },
+        },
+      },
+    });
+
+    return message;
   }
 }

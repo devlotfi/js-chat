@@ -31,7 +31,7 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'flex max-h-[calc(100vh-3.3rem)] h-full lg:h-auto w-full md:w-[23rem] overflow-x-hidden absolute lg:flex lg:static bg-background duration-300',
+        'flex z-30 max-h-[calc(100vh-3.3rem)] h-full lg:h-auto w-full md:w-[23rem] overflow-x-hidden absolute lg:flex lg:static bg-background duration-300 border-r border-divider',
         !sidebarOpen && 'ml-[-100%] md:ml-[-23rem]',
       )}
     >

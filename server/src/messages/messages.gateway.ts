@@ -3,7 +3,6 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import { SendMessageDTO, SendMessageEvent } from './dto/send-message-event';
 
 @WebSocketGateway(5000, {
   transports: ['websocket'],
@@ -12,8 +11,8 @@ import { SendMessageDTO, SendMessageEvent } from './dto/send-message-event';
   },
 })
 export class MessagesGateway {
-  @SubscribeMessage(SendMessageEvent.eventType)
-  public handleMessage(@MessageBody() sendMessageDto: SendMessageDTO): string {
+  @SubscribeMessage('SendMessageEvent.eventType')
+  public handleMessage(@MessageBody() sendMessageDto: any): string {
     console.log(sendMessageDto);
 
     return 'Hello world!';

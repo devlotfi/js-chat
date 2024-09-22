@@ -40,4 +40,41 @@ export class ConversationsService {
     });
     return conversations;
   }
+
+  public async conversationDetails(conversationId: string, userId: string) {
+    const conversation =
+      await this.databaseService.conversation.findUniqueOrThrow({
+        where: {
+          id: conversationId,
+          conversationUsers: {
+            some: {
+              userId,
+            },
+          },
+        },
+        select: {
+          id: true,
+          createdAt: true,
+          conversationUsers: {
+            where: {
+              NOT: {
+                userId: {
+                  equals: userId,
+                },
+              },
+            },
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  profilePicture: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    return conversation;
+  }
 }

@@ -25,9 +25,20 @@ export default {
             },
             default: {
               DEFAULT: '#F3F2F2',
+              100: '#F3F2F2',
             },
             primary: {
               DEFAULT: '#4B7FE2',
+              50: '#e3efff',
+              100: '#bad0f9',
+              200: '#8fb1f0',
+              300: '#6492e7',
+              400: '#3972df',
+              500: '#2059c6',
+              600: '#16459b',
+              700: '#0d3170',
+              800: '#041e46',
+              900: '#000a1d',
               foreground: '#fff',
             },
           },
@@ -38,11 +49,13 @@ export default {
             content1: '#2B313E',
             background: {
               DEFAULT: '#2B313E',
-              100: '#212631',
+              100: '#1C2029',
               foreground: '#CED9EE',
             },
             default: {
-              DEFAULT: '#212631',
+              DEFAULT: '#3C4557',
+              100: '#4A5469',
+              200: '#556079',
             },
             primary: {
               DEFAULT: '#4B7FE2',

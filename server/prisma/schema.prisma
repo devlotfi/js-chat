@@ -65,6 +65,6 @@ model Message {
   conversationId String
   userId         String
   text           String
-  isDeleted      Boolean
+  isDeleted      Boolean  @default(false)
   createdAt      DateTime @default(now())
 }

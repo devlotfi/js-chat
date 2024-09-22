@@ -8,7 +8,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { RedisIoAdapter } from './shared/redis-io-adapter';
 import { RedisService } from './redis/redis.service';
 import { WsAuthPayload } from './auth/dto/ws-auth-dto';
-import { SendMessageEvent } from './messages/dto/send-message-event';
 import { IncomingMessageEvent } from './messages/dto/incoming-message-event';
 
 async function bootstrap() {
@@ -34,7 +33,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    extraModels: [SendMessageEvent, IncomingMessageEvent, WsAuthPayload],
+    extraModels: [IncomingMessageEvent, WsAuthPayload],
   });
   SwaggerModule.setup('api', app, document);
 

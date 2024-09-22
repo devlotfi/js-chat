@@ -63,6 +63,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/conversations/{conversationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ConversationsController_conversationDetails"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/messages/{conversationId}": {
         parameters: {
             query?: never;
@@ -72,7 +88,7 @@ export interface paths {
         };
         get: operations["MessagesController_messages"];
         put?: never;
-        post?: never;
+        post: operations["MessagesController_sendMessage"];
         delete?: never;
         options?: never;
         head?: never;
@@ -118,7 +134,7 @@ export interface components {
         };
         ApiExcpetion: {
             /** @enum {string} */
-            message: "NO_TOKEN" | "INVALID_OAUTH_TOKEN" | "INVALID_TOKEN";
+            message: "NO_TOKEN" | "INVALID_OAUTH_TOKEN" | "INVALID_TOKEN" | "NOT_FOUND";
             statusCode: number;
         };
         SignInRefreshTokenResponseDTO: {
@@ -147,22 +163,15 @@ export interface components {
             createdAt: string;
             user: components["schemas"]["UserPublicDTO"];
         };
+        SendMessageDTO: {
+            text: string;
+        };
         InvitationDTO: {
             id: string;
             /** Format: date-time */
             createdAt: string;
             fromUser: components["schemas"]["UserPublicDTO"];
             toUser: components["schemas"]["UserPublicDTO"];
-        };
-        SendMessageDTO: {
-            text: string;
-            to: string;
-        };
-        SendMessageEvent: {
-            /** @enum {string} */
-            messageType: "SEND_MESSAGE";
-            dtoPayload: components["schemas"]["SendMessageDTO"];
-            responsePayload: components["schemas"]["MessageDTO"];
         };
         IncomingMessageEvent: {
             /** @enum {string} */
@@ -275,6 +284,35 @@ export interface operations {
             };
         };
     };
+    ConversationsController_conversationDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationDTO"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiExcpetion"];
+                };
+            };
+        };
+    };
     MessagesController_messages: {
         parameters: {
             query?: never;
@@ -292,6 +330,47 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MessageDTO"][];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiExcpetion"];
+                };
+            };
+        };
+    };
+    MessagesController_sendMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendMessageDTO"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageDTO"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiExcpetion"];
                 };
             };
         };

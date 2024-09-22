@@ -34,6 +34,10 @@ export default function ChatContextProvider({ children }: PropsWithChildren) {
       },
     );
 
+    socket.on('connect', () => {
+      console.log('connected');
+    });
+
     socket.on('disconnect', () => {
       console.log('disconnect');
     });

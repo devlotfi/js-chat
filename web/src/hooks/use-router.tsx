@@ -2,10 +2,10 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import SignInPage from '../pages/sign-in-page';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context';
-import ChatLayout from '../layout/app-layout';
+import ChatLayout from '../layout/chat-layout';
 import ChatContextProvider from '../context/chat-context';
 import ChooseConversation from '../components/choose-conversation';
-import ConversationLayout from '../layout/conversation-layout';
+import ConversationPage from '../pages/conversation-page';
 
 export default function useRouter() {
   const { user } = useContext(AuthContext);
@@ -48,7 +48,7 @@ export default function useRouter() {
         },
         {
           path: '/chat/conversation/:conversationId',
-          element: <ConversationLayout></ConversationLayout>,
+          element: <ConversationPage></ConversationPage>,
         },
       ],
     },

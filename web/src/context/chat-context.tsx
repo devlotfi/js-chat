@@ -1,5 +1,10 @@
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
+import { InMemoryStore } from '../openapi-client';
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '../types/ws-api-definition';
 
 interface ChatContext {
   sidebarOpen: boolean;
@@ -19,20 +24,25 @@ export default function ChatContextProvider({ children }: PropsWithChildren) {
   );
 
   useEffect(() => {
-    const socket = io('ws://localhost:5000', {
-      transports: ['websocket'],
-      auth: {
-        accessToken: 'lol',
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+      import.meta.env.VITE_WS_URL,
+      {
+        transports: ['websocket'],
+        auth: {
+          accessToken: InMemoryStore.accessToken,
+        },
       },
-    });
+    );
 
     socket.on('disconnect', () => {
       console.log('disconnect');
     });
 
-    socket.on('test', () => {
-      console.log('rec');
+    socket.emit('SEND_MESSAGE', { text: 'lol', to: 'to' }, (res) => {
+      console.log(res);
     });
+
+    socket.on('INCOMING_MESSAGE', () => {});
 
     return () => {
       socket.disconnect();

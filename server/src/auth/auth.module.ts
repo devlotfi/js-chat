@@ -5,12 +5,11 @@ import { AuthController } from './auth.controller';
 import { ConfigModule } from '@nestjs/config';
 import { GoogleOAuth2ClientService } from './google-oauth2-client.service';
 import { TokenService } from './token.service';
-import { AuthGateway } from './auth.gateway';
 
 @Global()
 @Module({
   imports: [ConfigModule, JwtModule.register({})],
-  providers: [AuthService, GoogleOAuth2ClientService, TokenService, AuthGateway],
+  providers: [AuthService, GoogleOAuth2ClientService, TokenService],
   controllers: [AuthController],
   exports: [TokenService],
 })

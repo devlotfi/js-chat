@@ -154,9 +154,23 @@ export interface components {
             fromUser: components["schemas"]["UserPublicDTO"];
             toUser: components["schemas"]["UserPublicDTO"];
         };
-        SocketIOAPIDefinition: {
+        SendMessageDTO: {
+            text: string;
+            to: string;
+        };
+        SendMessageEvent: {
             /** @enum {string} */
-            messages: "MESSAGE" | "INVITATION";
+            messageType: "SEND_MESSAGE";
+            dtoPayload: components["schemas"]["SendMessageDTO"];
+            responsePayload: components["schemas"]["MessageDTO"];
+        };
+        IncomingMessageEvent: {
+            /** @enum {string} */
+            messageType: "INCOMING_MESSAGE";
+            dtoPayload: components["schemas"]["MessageDTO"];
+        };
+        WsAuthPayload: {
+            accessToken: string;
         };
     };
     responses: never;

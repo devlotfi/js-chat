@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { EnvDefinition } from 'src/shared/env-definition';
-import { JWTTokenPayload } from 'src/shared/token-payload';
+import { JWTTokenPayload } from './dto/token-payload';
 
 @Injectable()
 export class TokenService {
@@ -36,6 +36,18 @@ export class TokenService {
           ),
         },
       );
+      return payload;
+    } catch {
+      throw new Error('Invalid access token');
+    }
+  }
+
+  public async decodeAccessToken(
+    accessToken: string,
+  ): Promise<JWTTokenPayload> {
+    try {
+      const payload =
+        await this.jwtService.decode<JWTTokenPayload>(accessToken);
       return payload;
     } catch {
       throw new Error('Invalid access token');

@@ -5,9 +5,11 @@ import { EnvDefinition } from './shared/env-definition';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
-import { SocketIOAPIDefinition } from './shared/socket-io-api-definition';
 import { RedisIoAdapter } from './shared/redis-io-adapter';
 import { RedisService } from './redis/redis.service';
+import { WsAuthPayload } from './auth/dto/ws-auth-dto';
+import { SendMessageEvent } from './messages/dto/send-message-event';
+import { IncomingMessageEvent } from './messages/dto/incoming-message-event';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +23,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 
+  const redisIoAdapter = new RedisIoAdapter(app);
+  await redisIoAdapter.makeAdapter(redisService.client);
+  app.useWebSocketAdapter(redisIoAdapter);
+
   const config = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('JsChat api')
@@ -28,7 +34,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    extraModels: [SocketIOAPIDefinition],
+    extraModels: [SendMessageEvent, IncomingMessageEvent, WsAuthPayload],
   });
   SwaggerModule.setup('api', app, document);
 

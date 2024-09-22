@@ -7,6 +7,7 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { MessagesModule } from './messages/messages.module';
 import { InvitationsModule } from './invitations/invitations.module';
 import { RedisModule } from './redis/redis.module';
+import { WsSessionModule } from './ws-session/ws-session.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RedisModule } from './redis/redis.module';
     MessagesModule,
     InvitationsModule,
     RedisModule,
+    WsSessionModule,
   ],
 })
 export class AppModule {}

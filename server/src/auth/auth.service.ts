@@ -12,7 +12,7 @@ import { TokenPayload } from 'google-auth-library';
 import { User } from '@prisma/client';
 import * as Cookies from 'cookies';
 import { SignInRefreshTokenResponseDTO } from './dto/sign-in-refresh-token-response-dto';
-import { JWTTokenPayload } from 'src/shared/token-payload';
+import { JWTTokenPayload } from './dto/token-payload';
 
 @Injectable()
 export class AuthService {

@@ -9,6 +9,8 @@ import { RedisIoAdapter } from './shared/redis-io-adapter';
 import { RedisService } from './redis/redis.service';
 import { WsAuthPayload } from './auth/types/ws-auth-dto';
 import { IncomingMessageEvent } from './messages/types/incoming-message-event';
+import { InvitationsUpdatedEvent } from './invitations/types/invitations-updated-event';
+import { ConversationsUpdatedEvent } from './conversations/types/conversations-updated-event';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -33,7 +35,12 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    extraModels: [IncomingMessageEvent, WsAuthPayload],
+    extraModels: [
+      IncomingMessageEvent,
+      ConversationsUpdatedEvent,
+      InvitationsUpdatedEvent,
+      WsAuthPayload,
+    ],
   });
   SwaggerModule.setup('api', app, document);
 

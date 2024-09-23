@@ -73,7 +73,7 @@ export interface paths {
         get: operations["ConversationsController_conversationDetails"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["ConversationsController_deleteConversation"];
         options?: never;
         head?: never;
         patch?: never;
@@ -95,7 +95,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/invitations": {
+    "/invitations/sent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["InvitationsController_sentInvitations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invitations/recieved": {
         parameters: {
             query?: never;
             header?: never;
@@ -109,6 +125,38 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/invitations/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["InvitationsController_sendInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invitations/{invitationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["InvitationsController_deleteInvitation"];
+        options?: never;
+        head?: never;
+        patch: operations["InvitationsController_acceptInvitation"];
         trace?: never;
     };
     "/users": {
@@ -214,6 +262,14 @@ export interface components {
             /** @enum {string} */
             messageType: "INCOMING_MESSAGE";
             dtoPayload: components["schemas"]["MessageDTO"];
+        };
+        ConversationsUpdatedEvent: {
+            /** @enum {string} */
+            messageType: "CONVERSATIONS_UPDATED";
+        };
+        InvitationsUpdatedEvent: {
+            /** @enum {string} */
+            messageType: "INVITATIONS_UPDATED";
         };
         WsAuthPayload: {
             accessToken: string;
@@ -350,6 +406,33 @@ export interface operations {
             };
         };
     };
+    ConversationsController_deleteConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiExcpetion"];
+                };
+            };
+        };
+    };
     MessagesController_messages: {
         parameters: {
             query?: never;
@@ -412,6 +495,25 @@ export interface operations {
             };
         };
     };
+    InvitationsController_sentInvitations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationDTO"][];
+                };
+            };
+        };
+    };
     InvitationsController_recievedInvitations: {
         parameters: {
             query?: never;
@@ -428,6 +530,65 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["InvitationDTO"][];
                 };
+            };
+        };
+    };
+    InvitationsController_sendInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationDTO"];
+                };
+            };
+        };
+    };
+    InvitationsController_deleteInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    InvitationsController_acceptInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invitationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

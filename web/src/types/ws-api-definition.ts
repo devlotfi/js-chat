@@ -1,20 +1,21 @@
 import { components } from '../__generated__/schema';
 
-const SEND_MESSAGE: components['schemas']['SendMessageEvent']['messageType'] =
-  'SEND_MESSAGE';
 const INCOMING_MESSAGE: components['schemas']['IncomingMessageEvent']['messageType'] =
   'INCOMING_MESSAGE';
+const CONVERSATIONS_UPDATED: components['schemas']['ConversationsUpdatedEvent']['messageType'] =
+  'CONVERSATIONS_UPDATED';
+const INVITATIONS_UPDATED: components['schemas']['InvitationsUpdatedEvent']['messageType'] =
+  'INVITATIONS_UPDATED';
 
-export interface ClientToServerEvents {
-  [SEND_MESSAGE]: (
-    payload: components['schemas']['SendMessageEvent']['dtoPayload'],
-    callback: (
-      responsePayload: components['schemas']['SendMessageEvent']['responsePayload'],
-    ) => void,
-  ) => void;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ClientToServerEvents {}
+
 export interface ServerToClientEvents {
   [INCOMING_MESSAGE]: (
     payload: components['schemas']['IncomingMessageEvent']['dtoPayload'],
   ) => void;
+
+  [CONVERSATIONS_UPDATED]: () => void;
+
+  [INVITATIONS_UPDATED]: () => void;
 }

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserLinkStatusParams {
+export class UserIdParams {
   @ApiProperty()
   public userId: string;
 }

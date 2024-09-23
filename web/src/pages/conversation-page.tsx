@@ -3,17 +3,25 @@ import { $api } from '../openapi-client';
 import {
   Avatar,
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Input,
   ScrollShadow,
   Spinner,
+  useDisclosure,
 } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import MessageItem from '../components/message-item';
+import {
+  faEllipsisV,
+  faPaperPlane,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import MessageItem from '../components/message/message-item';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useQueryClient } from '@tanstack/react-query';
-import { components } from '../__generated__/schema';
+import DeleteConversationModal from '../components/conversation/delete-conversation-modal';
 
 const validationSchema = yup.object({
   text: yup.string().max(512).required(),
@@ -21,7 +29,7 @@ const validationSchema = yup.object({
 
 export default function ConversationPage() {
   const { conversationId } = useParams();
-  const queryClient = useQueryClient();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   if (!conversationId) {
     throw new Error('No conversation id');
@@ -111,7 +119,7 @@ export default function ConversationPage() {
 
   return (
     <div className="flex flex-col flex-1 bg-background-100">
-      <div className="flex justify-between border-b border-divider p-[0.5rem]">
+      <div className="flex justify-between border-b border-divider p-[0.5rem] bg-background">
         <div className="flex items-center space-x-2">
           <Avatar
             src={getUser()?.profilePicture}
@@ -120,7 +128,40 @@ export default function ConversationPage() {
           ></Avatar>
           <div className="flex">{getUser()?.username}</div>
         </div>
-        <div className="flex"></div>
+        <div className="flex">
+          <DeleteConversationModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+          ></DeleteConversationModal>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly>
+                <FontAwesomeIcon icon={faEllipsisV}></FontAwesomeIcon>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              onAction={(key) => {
+                switch (key) {
+                  case 'delete-conversation':
+                    onOpen();
+                    break;
+                }
+              }}
+              aria-label="Static Actions"
+            >
+              <DropdownItem
+                key="delete-conversation"
+                className="text-danger"
+                color="danger"
+                startContent={
+                  <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                }
+              >
+                Delete conversation
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </div>
       <ScrollShadow className="flex flex-col flex-1 overscroll-y-auto">
         {renderMessages()}

@@ -10,8 +10,8 @@ import {
 import { MessagesParams } from './types/messages-params';
 import { MessageDTO } from './types/message-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
-import { SendMessageParams } from './types/send-message-params';
 import { SendMessageDTO } from './types/send-message-dto';
+import { ConversationIdParams } from 'src/conversations/types/conversation-id-params';
 
 @Controller('messages')
 export class MessagesController {
@@ -46,13 +46,13 @@ export class MessagesController {
     type: () => ApiExcpetion,
   })
   public async sendMessage(
-    @Param() sendMessageParams: SendMessageParams,
+    @Param() conversationIdParams: ConversationIdParams,
     @Body() sendMessageDto: SendMessageDTO,
     @CurrentUser() userId: string,
   ): Promise<MessageDTO> {
     return await this.messagesService.sendMessage(
       sendMessageDto,
-      sendMessageParams.conversationId,
+      conversationIdParams.conversationId,
       userId,
     );
   }

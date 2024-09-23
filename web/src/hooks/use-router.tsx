@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context';
 import ChatLayout from '../layout/chat-layout';
 import ChatContextProvider from '../context/chat-context';
-import ChooseConversation from '../components/choose-conversation';
+import ChooseConversation from '../components/conversation/choose-conversation';
 import ConversationPage from '../pages/conversation-page';
 
 export default function useRouter() {

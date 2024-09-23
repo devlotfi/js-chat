@@ -16,35 +16,36 @@ export class MessagesService {
     conversationId: string,
     userId: string,
   ): Promise<MessageDTO[]> {
-    await this.databaseService.conversationUser.findFirstOrThrow({
-      where: {
-        conversationId,
-        userId,
-      },
-    });
-
-    const messages = await this.databaseService.message.findMany({
-      where: {
-        conversationId,
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
-      select: {
-        id: true,
-        text: true,
-        isDeleted: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            username: true,
-            profilePicture: true,
+    return await this.databaseService.$transaction(async (prisma) => {
+      await prisma.conversationUser.findFirstOrThrow({
+        where: {
+          conversationId,
+          userId,
+        },
+      });
+      const messages = await prisma.message.findMany({
+        where: {
+          conversationId,
+        },
+        orderBy: {
+          createdAt: 'asc',
+        },
+        select: {
+          id: true,
+          text: true,
+          isDeleted: true,
+          createdAt: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              profilePicture: true,
+            },
           },
         },
-      },
+      });
+      return messages;
     });
-    return messages;
   }
 
   public async sendMessage(
@@ -52,8 +53,8 @@ export class MessagesService {
     conversationId: string,
     userId: string,
   ): Promise<MessageDTO> {
-    const conversation =
-      await this.databaseService.conversation.findUniqueOrThrow({
+    return await this.databaseService.$transaction(async (prisma) => {
+      const conversation = await prisma.conversation.findUniqueOrThrow({
         where: {
           id: conversationId,
           conversationUsers: {
@@ -63,32 +64,32 @@ export class MessagesService {
           },
         },
       });
-
-    const message = await this.databaseService.message.create({
-      data: {
-        userId,
-        conversationId,
-        text: sendMessageDto.text,
-      },
-      select: {
-        id: true,
-        text: true,
-        isDeleted: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            username: true,
-            profilePicture: true,
+      const message = await prisma.message.create({
+        data: {
+          userId,
+          conversationId,
+          text: sendMessageDto.text,
+        },
+        select: {
+          id: true,
+          text: true,
+          isDeleted: true,
+          createdAt: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              profilePicture: true,
+            },
           },
         },
-      },
+      });
+
+      this.messagesGateway.server
+        .to(conversation.id)
+        .emit(IncomingMessageEvent.eventType, message);
+
+      return message;
     });
-
-    this.messagesGateway.server
-      .to(conversation.id)
-      .emit(IncomingMessageEvent.eventType, message);
-
-    return message;
   }
 }

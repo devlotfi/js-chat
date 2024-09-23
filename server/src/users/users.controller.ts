@@ -6,7 +6,7 @@ import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { UserPublicDTO } from './types/user-public-dto';
 import { UsersQuery } from './types/users-query';
 import { UserLinkStatusDTO } from './types/user-link-status-dto';
-import { UserLinkStatusParams } from './types/user-link-status-params';
+import { UserIdParams } from './types/user-id-params';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +32,7 @@ export class UsersController {
     type: () => UserLinkStatusDTO,
   })
   public async userLinkStatus(
-    @Param() userLinkStatusParams: UserLinkStatusParams,
+    @Param() userLinkStatusParams: UserIdParams,
     @CurrentUser() userId: string,
   ): Promise<UserLinkStatusDTO> {
     return await this.usersService.userLinkStatus(

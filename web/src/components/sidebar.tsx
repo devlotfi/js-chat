@@ -8,10 +8,10 @@ import {
   faShare,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import ConversationList from './conversation-list';
-import RecievedInvitationsList from './recieved-invitations-list';
-import SentInvitationsList from './sent-invitations-list';
-import UserSearch from './user-search';
+import ConversationList from './conversation/conversation-list';
+import RecievedInvitationsList from './invitation/recieved-invitations-list';
+import SentInvitationsList from './invitation/sent-invitations-list';
+import UserSearch from './user/user-search';
 
 export default function Sidebar() {
   const { sidebarOpen } = useContext(ChatContext);

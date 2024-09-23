@@ -5,7 +5,7 @@ import LogoFull from '../assets/svg/logo-full.svg';
 import LogoCompact from '../assets/svg/logo-compact.svg';
 import { useContext } from 'react';
 import { ChatContext } from '../context/chat-context';
-import SignOutModal from './sign-out-modal';
+import SignOutModal from './auth/sign-out-modal';
 import ChatNavbarDropdown from './chat-navbar-dropdown';
 
 export default function ChatNavbar() {

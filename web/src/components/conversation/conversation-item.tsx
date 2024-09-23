@@ -1,8 +1,8 @@
 import { Avatar, Button, cn } from '@nextui-org/react';
-import { components } from '../__generated__/schema';
+import { components } from '../../__generated__/schema';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
-import { ChatContext } from '../context/chat-context';
+import { ChatContext } from '../../context/chat-context';
 
 interface Props {
   conversation: components['schemas']['ConversationDTO'];

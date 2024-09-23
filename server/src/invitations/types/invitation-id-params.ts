@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
 
-export class SendMessageParams {
+export class InvitationIdParams {
   @ApiProperty()
   @IsUUID()
-  public conversationId: string;
+  public invitationId: string;
 }

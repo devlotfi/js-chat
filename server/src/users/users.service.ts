@@ -24,6 +24,10 @@ export class UsersService {
             equals: userId,
           },
         },
+        username: {
+          contains: usersQuery.search,
+          mode: 'insensitive',
+        },
       },
       select: {
         id: true,

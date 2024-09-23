@@ -6,7 +6,7 @@ import {
   ModalFooter,
   Button,
 } from '@nextui-org/react';
-import { $api, InMemoryStore } from '../openapi-client';
+import { $api, InMemoryStore } from '../../openapi-client';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {

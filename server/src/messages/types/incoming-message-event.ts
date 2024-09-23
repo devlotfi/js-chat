@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { WsEventDefinition } from 'src/shared/ws-message-definition';
 import { MessageDTO } from './message-dto';
+import { WsServerEventDefinition } from 'src/shared/ws-message-definition';
 
-export class IncomingMessageEvent extends WsEventDefinition<MessageDTO> {
+export class IncomingMessageEvent extends WsServerEventDefinition<MessageDTO> {
   public static readonly eventType = 'INCOMING_MESSAGE';
 
   @ApiProperty({ enum: [IncomingMessageEvent.eventType] })

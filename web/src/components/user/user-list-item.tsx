@@ -1,8 +1,12 @@
 import { Avatar, Button, Card, CardBody, cn, Spinner } from '@nextui-org/react';
-import { components } from '../__generated__/schema';
+import { components } from '../../__generated__/schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { $api } from '../openapi-client';
+import {
+  faCaretDown,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import { $api } from '../../openapi-client';
 import { useState } from 'react';
 
 interface Props {
@@ -12,13 +16,20 @@ interface Props {
 export default function UserListItem({ user }: Props) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const { data, isLoading } = $api.useQuery('get', '/users/{userId}/status', {
-    params: {
-      path: {
-        userId: user.id,
+  const { data, isLoading } = $api.useQuery(
+    'get',
+    '/users/{userId}/status',
+    {
+      params: {
+        path: {
+          userId: user.id,
+        },
       },
     },
-  });
+    {
+      networkMode: 'online',
+    },
+  );
 
   return (
     <Card shadow="none" className="bg-default !transition-all duration-300">
@@ -40,42 +51,36 @@ export default function UserListItem({ user }: Props) {
               </div>
 
               <div className="flex">
-                <Button
-                  onPress={() => setOpen(!open)}
-                  size="sm"
-                  isIconOnly
-                  className="bg-default-100"
-                >
-                  <FontAwesomeIcon
-                    className={cn('duration-300', open && 'rotate-180')}
-                    icon={faCaretDown}
-                  ></FontAwesomeIcon>
-                </Button>
+                {(!data.invitationRecieved &&
+                  !data.invitationSent &&
+                  !data.conversation) ||
+                data.invitationSent ||
+                data.invitationRecieved ? (
+                  <Button
+                    onPress={() => setOpen(!open)}
+                    size="sm"
+                    isIconOnly
+                    className="bg-default-100"
+                  >
+                    <FontAwesomeIcon
+                      className={cn('duration-300', open && 'rotate-180')}
+                      icon={faCaretDown}
+                    ></FontAwesomeIcon>
+                  </Button>
+                ) : null}
               </div>
             </div>
 
             {open ? (
               <div className="flex flex-col mt-[1rem] space-y-3">
-                {data.conversation ? (
-                  <Button
-                    size="sm"
-                    color="danger"
-                    startContent={
-                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                    }
-                  >
-                    Delete conversation
-                  </Button>
-                ) : null}
-
                 {!data.invitationRecieved &&
                 !data.invitationSent &&
                 !data.conversation ? (
                   <Button
                     size="sm"
-                    color="danger"
+                    color="primary"
                     startContent={
-                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                     }
                   >
                     Invite user

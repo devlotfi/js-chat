@@ -1,7 +1,7 @@
 import { Avatar, cn } from '@nextui-org/react';
-import { components } from '../__generated__/schema';
+import { components } from '../../__generated__/schema';
 import { useContext } from 'react';
-import { AuthContext } from '../context/auth-context';
+import { AuthContext } from '../../context/auth-context';
 
 interface Props {
   message: components['schemas']['MessageDTO'];

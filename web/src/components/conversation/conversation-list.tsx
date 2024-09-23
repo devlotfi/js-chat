@@ -1,6 +1,6 @@
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { $api } from '../openapi-client';
+import { $api } from '../../openapi-client';
 import { Spinner } from '@nextui-org/react';
 import ConversationItem from './conversation-item';
 

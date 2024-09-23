@@ -7,8 +7,8 @@ import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { RedisIoAdapter } from './shared/redis-io-adapter';
 import { RedisService } from './redis/redis.service';
-import { WsAuthPayload } from './auth/dto/ws-auth-dto';
-import { IncomingMessageEvent } from './messages/dto/incoming-message-event';
+import { WsAuthPayload } from './auth/types/ws-auth-dto';
+import { IncomingMessageEvent } from './messages/types/incoming-message-event';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

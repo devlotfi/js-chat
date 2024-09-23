@@ -111,6 +111,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UsersController_users"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/{userId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UsersController_userLinkStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -172,6 +204,11 @@ export interface components {
             createdAt: string;
             fromUser: components["schemas"]["UserPublicDTO"];
             toUser: components["schemas"]["UserPublicDTO"];
+        };
+        UserLinkStatusDTO: {
+            conversation: boolean;
+            invitationSent: boolean;
+            invitationRecieved: boolean;
         };
         IncomingMessageEvent: {
             /** @enum {string} */
@@ -390,6 +427,49 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InvitationDTO"][];
+                };
+            };
+        };
+    };
+    UsersController_users: {
+        parameters: {
+            query: {
+                search: string;
+                cursor: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPublicDTO"][];
+                };
+            };
+        };
+    };
+    UsersController_userLinkStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserLinkStatusDTO"];
                 };
             };
         };

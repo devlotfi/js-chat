@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { InvitationsService } from './invitations.service';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
-import { InvitationDTO } from './dto/invitation-dto';
+import { InvitationDTO } from './types/invitation-dto';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 
 @Controller('invitations')

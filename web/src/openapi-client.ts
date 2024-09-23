@@ -21,7 +21,7 @@ export const fetchClient = createFetchClient<paths>({
 const authMiddelware: Middleware = {
   async onRequest({ request }) {
     let accessToken = InMemoryStore.accessToken;
-    console.log(accessToken);
+    console.log(JSON.stringify(accessToken));
 
     console.log('mid');
 

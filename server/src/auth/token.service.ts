@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { EnvDefinition } from 'src/shared/env-definition';
-import { JWTTokenPayload } from './dto/token-payload';
+import { JWTTokenPayload } from './types/token-payload';
 
 @Injectable()
 export class TokenService {

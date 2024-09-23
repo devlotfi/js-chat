@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { SignInDTO } from './dto/sign-in-dto';
+import { SignInDTO } from './types/sign-in-dto';
 import { AuthService } from './auth.service';
 import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
-import { SignInResponseDTO } from './dto/sign-in-response-dto';
+import { SignInResponseDTO } from './types/sign-in-response-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
 import { Request, Response } from 'express';
-import { SignInRefreshTokenResponseDTO } from './dto/sign-in-refresh-token-response-dto';
+import { SignInRefreshTokenResponseDTO } from './types/sign-in-refresh-token-response-dto';
 
 @Controller('auth')
 export class AuthController {

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { MessageDTO } from './dto/message-dto';
-import { SendMessageDTO } from './dto/send-message-dto';
+import { MessageDTO } from './types/message-dto';
+import { SendMessageDTO } from './types/send-message-dto';
 import { MessagesGateway } from './messages.gateway';
-import { IncomingMessageEvent } from './dto/incoming-message-event';
+import { IncomingMessageEvent } from './types/incoming-message-event';
 
 @Injectable()
 export class MessagesService {

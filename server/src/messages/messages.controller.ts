@@ -7,11 +7,11 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { MessagesParams } from './dto/messages-params';
-import { MessageDTO } from './dto/message-dto';
+import { MessagesParams } from './types/messages-params';
+import { MessageDTO } from './types/message-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
-import { SendMessageParams } from './dto/send-message-params';
-import { SendMessageDTO } from './dto/send-message-dto';
+import { SendMessageParams } from './types/send-message-params';
+import { SendMessageDTO } from './types/send-message-dto';
 
 @Controller('messages')
 export class MessagesController {

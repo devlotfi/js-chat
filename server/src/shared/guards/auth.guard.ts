@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { JWTTokenPayload } from 'src/auth/dto/token-payload';
+import { JWTTokenPayload } from 'src/auth/types/token-payload';
 import { TokenService } from 'src/auth/token.service';
 
 @Injectable()

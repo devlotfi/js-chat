@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { InvitationDTO } from './dto/invitation-dto';
+import { InvitationDTO } from './types/invitation-dto';
 
 @Injectable()
 export class InvitationsService {

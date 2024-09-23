@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Invitation } from '@prisma/client';
-import { UserPublicDTO } from 'src/user/types/user-public-dto';
+import { UserPublicDTO } from 'src/users/types/user-public-dto';
 
 export class InvitationDTO implements Partial<Invitation> {
   @ApiProperty()

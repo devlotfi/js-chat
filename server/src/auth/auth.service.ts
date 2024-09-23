@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { SignInDTO } from './dto/sign-in-dto';
-import { SignInResponseDTO } from './dto/sign-in-response-dto';
+import { SignInDTO } from './types/sign-in-dto';
+import { SignInResponseDTO } from './types/sign-in-response-dto';
 import { GoogleOAuth2ClientService } from './google-oauth2-client.service';
 import { ApiExcpetion } from 'src/shared/api-exception';
 import { ErrorMessages } from 'src/shared/error-messages';
@@ -11,8 +11,8 @@ import { Constants } from 'src/shared/constants';
 import { TokenPayload } from 'google-auth-library';
 import { User } from '@prisma/client';
 import * as Cookies from 'cookies';
-import { SignInRefreshTokenResponseDTO } from './dto/sign-in-refresh-token-response-dto';
-import { JWTTokenPayload } from './dto/token-payload';
+import { SignInRefreshTokenResponseDTO } from './types/sign-in-refresh-token-response-dto';
+import { JWTTokenPayload } from './types/token-payload';
 
 @Injectable()
 export class AuthService {

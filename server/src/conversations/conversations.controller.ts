@@ -7,8 +7,8 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { ConversationDTO } from './dto/conversation-dto';
-import { ConversationDetailsParams } from './dto/conversation-details-params';
+import { ConversationDTO } from './types/conversation-dto';
+import { ConversationDetailsParams } from './types/conversation-details-params';
 import { ApiExcpetion } from 'src/shared/api-exception';
 
 @Controller('conversations')

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { ConversationDTO } from './dto/conversation-dto';
+import { ConversationDTO } from './types/conversation-dto';
 
 @Injectable()
 export class ConversationsService {
@@ -76,5 +76,21 @@ export class ConversationsService {
         },
       });
     return conversation;
+  }
+
+  public async deleteConversation(
+    conversationId: string,
+    userId: string,
+  ): Promise<void> {
+    await this.databaseService.conversation.delete({
+      where: {
+        id: conversationId,
+        conversationUsers: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
   }
 }

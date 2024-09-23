@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnGatewayConnection } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { WsAuthPayload } from 'src/auth/dto/ws-auth-dto';
+import { WsAuthPayload } from 'src/auth/types/ws-auth-dto';
 import { TokenService } from 'src/auth/token.service';
 import { DatabaseService } from 'src/database/database.service';
 import { RedisService } from 'src/redis/redis.service';
@@ -29,7 +29,7 @@ export class WsSessionService implements OnGatewayConnection {
       const conversationIds = userConversations.map(
         (conversation) => conversation.conversationId,
       );
-      client.join(conversationIds);
+      client.join([...conversationIds, userId]);
     } catch {
       client.disconnect(true);
     }

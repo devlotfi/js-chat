@@ -11,6 +11,7 @@ import {
 import ConversationList from './conversation-list';
 import RecievedInvitationsList from './recieved-invitations-list';
 import SentInvitationsList from './sent-invitations-list';
+import UserSearch from './user-search';
 
 export default function Sidebar() {
   const { sidebarOpen } = useContext(ChatContext);
@@ -29,6 +30,8 @@ export default function Sidebar() {
         return <RecievedInvitationsList></RecievedInvitationsList>;
       case 'SENT_INVITATIONS':
         return <SentInvitationsList></SentInvitationsList>;
+      case 'USER_SEARCH':
+        return <UserSearch></UserSearch>;
     }
   };
 

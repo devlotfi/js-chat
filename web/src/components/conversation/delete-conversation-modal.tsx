@@ -32,17 +32,17 @@ export default function DeleteConversationModal({
     '/conversations/{conversationId}',
     {
       onSuccess() {
-        queryClient.resetQueries({
+        queryClient.refetchQueries({
           queryKey: ['get', '/conversations'],
         });
-        queryClient.resetQueries({
+        queryClient.refetchQueries({
           queryKey: ['get', '/users'],
           exact: false,
         });
-        queryClient.resetQueries({
+        queryClient.refetchQueries({
           queryKey: ['get', '/invitations/sent'],
         });
-        queryClient.resetQueries({
+        queryClient.refetchQueries({
           queryKey: ['get', '/invitations/recieved'],
         });
         navigate('/chat');

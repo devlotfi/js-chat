@@ -1,4 +1,4 @@
-import ChooseConversationSVG from '../assets/svg/choose-conversation.svg';
+import ChooseConversationSVG from '../../assets/svg/choose-conversation.svg';
 
 export default function ChooseConversation() {
   return (

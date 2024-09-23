@@ -3,17 +3,19 @@ import { components } from '../../__generated__/schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCaretDown,
+  faEnvelope,
   faPlus,
-  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { $api } from '../../openapi-client';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   user: components['schemas']['UserPublicDTO'];
 }
 
 export default function UserListItem({ user }: Props) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState<boolean>(false);
 
   const { data, isLoading } = $api.useQuery(
@@ -30,6 +32,25 @@ export default function UserListItem({ user }: Props) {
       networkMode: 'online',
     },
   );
+
+  const { mutate: mutateSendInvitation, isPending: isPendingSendInvitation } =
+    $api.useMutation('post', '/invitations/{userId}', {
+      onSuccess() {
+        queryClient.resetQueries({
+          queryKey: [
+            'get',
+            '/users/{userId}/status',
+            {
+              params: {
+                path: {
+                  userId: user.id,
+                },
+              },
+            },
+          ],
+        });
+      },
+    });
 
   return (
     <Card shadow="none" className="bg-default !transition-all duration-300">
@@ -77,6 +98,16 @@ export default function UserListItem({ user }: Props) {
                 !data.invitationSent &&
                 !data.conversation ? (
                   <Button
+                    onPress={() =>
+                      mutateSendInvitation({
+                        params: {
+                          path: {
+                            userId: user.id,
+                          },
+                        },
+                      })
+                    }
+                    isLoading={isPendingSendInvitation}
                     size="sm"
                     color="primary"
                     startContent={
@@ -87,28 +118,11 @@ export default function UserListItem({ user }: Props) {
                   </Button>
                 ) : null}
 
-                {data.invitationSent ? (
-                  <Button
-                    size="sm"
-                    color="danger"
-                    startContent={
-                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                    }
-                  >
-                    Cancel invitation
-                  </Button>
-                ) : null}
-
-                {data.invitationRecieved ? (
-                  <Button
-                    size="sm"
-                    color="danger"
-                    startContent={
-                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                    }
-                  >
-                    Accept invitation
-                  </Button>
+                {data.invitationSent || data.invitationRecieved ? (
+                  <div className="flex items-center space-x-3">
+                    <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
+                    <div className="flex">Waiting for acceptation</div>
+                  </div>
                 ) : null}
               </div>
             ) : null}

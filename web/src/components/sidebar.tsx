@@ -81,7 +81,9 @@ export default function Sidebar() {
             </Button>
           </Tooltip>
         </div>
-        <div className="flex flex-col flex-1">{renderContent()}</div>
+        <div className="flex flex-col flex-1 overflow-y-auto">
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

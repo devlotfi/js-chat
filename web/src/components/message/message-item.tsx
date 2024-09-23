@@ -14,9 +14,11 @@ export default function MessageItem({ message }: Props) {
     throw new Error('No user');
   }
 
+  const formatZero = (value: number) => (value < 10 ? `0${value}` : value);
+
   const formatDate = () => {
     const date = new Date(message.createdAt);
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getFullYear()}/${formatZero(date.getMonth() + 1)}/${formatZero(date.getDate())} ${formatZero(date.getHours())}:${formatZero(date.getMinutes())}`;
   };
 
   return (

@@ -5,6 +5,7 @@ import { $api } from '../../openapi-client';
 import UserListItem from './user-list-item';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import Empty from '../../assets/svg/empty.svg';
 
 const validationSchema = yup.object({
   search: yup.string(),
@@ -36,9 +37,17 @@ export default function UserSearch() {
         </div>
       );
     } else {
-      return data.map((user) => (
-        <UserListItem key={user.id} user={user}></UserListItem>
-      ));
+      if (data.length > 0) {
+        return data.map((user) => (
+          <UserListItem key={user.id} user={user}></UserListItem>
+        ));
+      }
+      return (
+        <div className="flex flex-1 flex-col space-y-3 items-center justify-center">
+          <img className="h-[8rem]" src={Empty} alt="empty" />
+          <div className="flex">No results</div>
+        </div>
+      );
     }
   };
 

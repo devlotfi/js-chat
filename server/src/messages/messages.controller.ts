@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
@@ -12,6 +20,7 @@ import { MessageDTO } from './types/message-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
 import { SendMessageDTO } from './types/send-message-dto';
 import { ConversationIdParams } from 'src/conversations/types/conversation-id-params';
+import { MessagesQuery } from './types/messages-query';
 
 @Controller('messages')
 export class MessagesController {
@@ -28,10 +37,12 @@ export class MessagesController {
   })
   public async messages(
     @Param() messageParams: MessagesParams,
+    @Query() messageQuery: MessagesQuery,
     @CurrentUser() userId: string,
   ): Promise<MessageDTO[]> {
     return await this.messagesService.messages(
       messageParams.conversationId,
+      messageQuery.cursor,
       userId,
     );
   }

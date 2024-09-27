@@ -14,6 +14,7 @@ export class MessagesService {
 
   public async messages(
     conversationId: string,
+    cursor: string,
     userId: string,
   ): Promise<MessageDTO[]> {
     return await this.databaseService.$transaction(async (prisma) => {
@@ -24,6 +25,13 @@ export class MessagesService {
         },
       });
       const messages = await prisma.message.findMany({
+        take: 10,
+        skip: 1,
+        cursor: cursor
+          ? {
+              id: cursor,
+            }
+          : undefined,
         where: {
           conversationId,
         },

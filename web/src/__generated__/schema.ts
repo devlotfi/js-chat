@@ -435,7 +435,9 @@ export interface operations {
     };
     MessagesController_messages: {
         parameters: {
-            query?: never;
+            query?: {
+                cursor?: string;
+            };
             header?: never;
             path: {
                 conversationId: string;

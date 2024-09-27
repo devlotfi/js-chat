@@ -16,12 +16,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisV,
   faPaperPlane,
+  faPlus,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import MessageItem from '../components/message/message-item';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import DeleteConversationModal from '../components/conversation/delete-conversation-modal';
+import { QueryFunctionContext, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 const validationSchema = yup.object({
   text: yup.string().max(512).required(),
@@ -56,8 +58,18 @@ export default function ConversationPage() {
     });
 
   if (!conversationId) {
-    return 'Error';
+    throw new Error();
   }
+
+  const { mutate, mutateAsync, isPending } = $api.useMutation(
+    'post',
+    '/messages/{conversationId}',
+    {
+      onSuccess() {
+        resetForm();
+      },
+    },
+  );
 
   const { data: messagesData, isLoading: isMessagesLoading } = $api.useQuery(
     'get',
@@ -71,6 +83,15 @@ export default function ConversationPage() {
     },
   );
 
+  
+
+  const {} = useQuery({
+    queryKey: ["lol"],
+    queryFn: async (input: QueryFunctionContext<[string]>) => {
+      return []
+    }
+  });
+
   const { data: conversationData, isLoading: isConversationLoading } =
     $api.useQuery('get', '/conversations/{conversationId}', {
       params: {
@@ -79,16 +100,6 @@ export default function ConversationPage() {
         },
       },
     });
-
-  const { mutate, isPending } = $api.useMutation(
-    'post',
-    '/messages/{conversationId}',
-    {
-      onSuccess() {
-        resetForm();
-      },
-    },
-  );
 
   if (
     isMessagesLoading ||
@@ -164,6 +175,18 @@ export default function ConversationPage() {
         </div>
       </div>
       <ScrollShadow className="flex flex-col flex-1 overscroll-y-auto">
+        <div className="flex justify-center py-[1rem]">
+          <Button
+            onPress={() => {
+              (async () => {
+                await mutateAsync({});
+              })();
+            }}
+            startContent={<FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>}
+          >
+            Show more
+          </Button>
+        </div>
         {renderMessages()}
       </ScrollShadow>
       <form

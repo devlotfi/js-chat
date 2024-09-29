@@ -26,7 +26,7 @@ export class MessagesService {
       });
       const messages = await prisma.message.findMany({
         take: 10,
-        skip: 1,
+        skip: cursor ? 1 : undefined,
         cursor: cursor
           ? {
               id: cursor,
@@ -36,7 +36,7 @@ export class MessagesService {
           conversationId,
         },
         orderBy: {
-          createdAt: 'asc',
+          createdAt: 'desc',
         },
         select: {
           id: true,

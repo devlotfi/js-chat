@@ -5,7 +5,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '../types/ws-api-definition';
-import { useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { components } from '../__generated__/schema';
 
@@ -49,19 +49,23 @@ export default function ChatContextProvider({ children }: PropsWithChildren) {
 
     socket.on('INCOMING_MESSAGE', (message) => {
       queryClient.setQueryData(
-        [
-          'get',
-          '/messages/{conversationId}',
-          {
-            params: {
-              path: {
-                conversationId,
-              },
-            },
-          },
-        ],
-        (messages: components['schemas']['MessageDTO'][]) => {
-          return [...messages, message];
+        ['messages', conversationId],
+        (
+          data: InfiniteData<components['schemas']['MessageDTO'][]>,
+        ): InfiniteData<components['schemas']['MessageDTO'][]> => {
+          console.log('messages', data);
+
+          const newPages = [
+            ...data.pages.map((page) => [
+              ...page.map((message) => ({ ...message })),
+            ]),
+          ];
+          newPages[newPages.length - 1].unshift(message);
+
+          return {
+            pageParams: [...data.pageParams],
+            pages: newPages,
+          };
         },
       );
     });

@@ -8,6 +8,8 @@ export class AuthGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
+    console.log(req.headers);
+
     const authorization = req.headers.authorization;
     if (!authorization) {
       return false;
@@ -21,7 +23,9 @@ export class AuthGuard implements CanActivate {
     let payload: JWTTokenPayload;
     try {
       payload = await this.tokenService.verifyAccessToken(accessToken);
-    } catch {
+    } catch (error) {
+      console.log(error);
+
       return false;
     }
 

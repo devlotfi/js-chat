@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { $api } from '../openapi-client';
+import { $api, fetchClient, InMemoryStore } from '../openapi-client';
 import {
   Avatar,
   Button,
@@ -23,7 +23,8 @@ import MessageItem from '../components/message/message-item';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import DeleteConversationModal from '../components/conversation/delete-conversation-modal';
-import { QueryFunctionContext, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getUserFromConversation } from '../utils';
 
 const validationSchema = yup.object({
   text: yup.string().max(512).required(),
@@ -61,7 +62,7 @@ export default function ConversationPage() {
     throw new Error();
   }
 
-  const { mutate, mutateAsync, isPending } = $api.useMutation(
+  const { mutate, isPending } = $api.useMutation(
     'post',
     '/messages/{conversationId}',
     {
@@ -71,25 +72,47 @@ export default function ConversationPage() {
     },
   );
 
-  const { data: messagesData, isLoading: isMessagesLoading } = $api.useQuery(
-    'get',
-    '/messages/{conversationId}',
-    {
+  const fetchMessages = async (conversationId: string, cursor?: string) => {
+    const { data } = await fetchClient.GET('/messages/{conversationId}', {
       params: {
         path: {
           conversationId,
         },
+        query: {
+          cursor,
+        },
       },
+      headers: {
+        authorization: `Bearer ${InMemoryStore.accessToken}`,
+      },
+    });
+    return data!;
+  };
+
+  const {
+    data: messagesData,
+    isLoading: isMessagesLoading,
+    isFetchingPreviousPage,
+    hasPreviousPage,
+    fetchPreviousPage,
+  } = useInfiniteQuery({
+    queryKey: ['messages', conversationId],
+    queryFn: async ({ pageParam }) =>
+      await fetchMessages(
+        conversationId,
+        pageParam === '' ? undefined : pageParam,
+      ),
+    initialPageParam: '',
+    getPreviousPageParam: (firstPage) => {
+      if (!firstPage.length) {
+        return undefined;
+      }
+
+      return firstPage[firstPage.length - 1].id;
     },
-  );
-
-  
-
-  const {} = useQuery({
-    queryKey: ["lol"],
-    queryFn: async (input: QueryFunctionContext<[string]>) => {
-      return []
-    }
+    getNextPageParam: () => undefined,
+    refetchOnWindowFocus: false,
+    networkMode: 'online',
   });
 
   const { data: conversationData, isLoading: isConversationLoading } =
@@ -114,17 +137,13 @@ export default function ConversationPage() {
     );
   }
 
-  const getUser = () => {
-    const conversationUser = conversationData.conversationUsers[0];
-    if (!conversationUser) {
-      return;
-    }
-    return conversationUser.user;
-  };
-
   const renderMessages = () => {
-    return messagesData.map((message) => (
-      <MessageItem key={message.id} message={message}></MessageItem>
+    return messagesData.pages.map((page, index) => (
+      <div key={index} className="flex flex-col-reverse">
+        {page.map((message) => (
+          <MessageItem key={message.id} message={message}></MessageItem>
+        ))}
+      </div>
     ));
   };
 
@@ -133,11 +152,13 @@ export default function ConversationPage() {
       <div className="flex justify-between border-b border-divider p-[0.5rem] bg-background">
         <div className="flex items-center space-x-2">
           <Avatar
-            src={getUser()?.profilePicture}
+            src={getUserFromConversation(conversationData).profilePicture}
             size="sm"
             imgProps={{ referrerPolicy: 'no-referrer' }}
           ></Avatar>
-          <div className="flex">{getUser()?.username}</div>
+          <div className="flex">
+            {getUserFromConversation(conversationData).username}
+          </div>
         </div>
         <div className="flex">
           <DeleteConversationModal
@@ -174,18 +195,21 @@ export default function ConversationPage() {
           </Dropdown>
         </div>
       </div>
-      <ScrollShadow className="flex flex-col flex-1 overscroll-y-auto">
+      <ScrollShadow className="flex flex-col flex-1 overscroll-y-auto pb-[3rem]">
         <div className="flex justify-center py-[1rem]">
-          <Button
-            onPress={() => {
-              (async () => {
-                await mutateAsync({});
-              })();
-            }}
-            startContent={<FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>}
-          >
-            Show more
-          </Button>
+          {hasPreviousPage ? (
+            <Button
+              onPress={() => {
+                (async () => {
+                  await fetchPreviousPage();
+                })();
+              }}
+              isLoading={isFetchingPreviousPage}
+              startContent={<FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>}
+            >
+              Show more
+            </Button>
+          ) : null}
         </div>
         {renderMessages()}
       </ScrollShadow>

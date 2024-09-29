@@ -26,7 +26,7 @@ export default function ConversationList() {
     <div className="flex flex-col flex-1 p-[1rem]">
       <div className="flex items-center space-x-3 text-[15pt] font-bold mb-[1rem] ml-[0.5rem]">
         <FontAwesomeIcon icon={faMessage}></FontAwesomeIcon>
-        <div className="flex">Messages</div>
+        <div className="flex">Conversations</div>
       </div>
 
       {data.map((conversation) => (

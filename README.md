@@ -1,4 +1,4 @@
-<img height="100px" src="https://github.com/devlotfi/js-chat/blob/main/github-assets/logo.svg">
+<img height="100px" width="100px" src="https://github.com/devlotfi/js-chat/blob/main/github-assets/logo.svg">
 
 # 📜 js-chat
 A simple chat app that uses google accounts
@@ -25,7 +25,7 @@ $ yarn
 
 ## Development
 
-First have to configure the ENV variables first on the server and run the migrations
+First have to configure the ENV variables first on the server and client and run the database migrations
 
 ```bash
 # Run in server folder

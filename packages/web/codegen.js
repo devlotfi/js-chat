@@ -3,7 +3,7 @@ import openapiTS, { astToString } from 'openapi-typescript';
 import { config } from 'dotenv';
 
 config({
-  path: ['.env.development'],
+  path: ['.env'],
 });
 
 const ast = await openapiTS(new URL(process.env.OPENAPI_URL));

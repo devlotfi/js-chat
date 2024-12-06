@@ -13,6 +13,7 @@ import { User } from '@prisma/client';
 import * as Cookies from 'cookies';
 import { SignInRefreshTokenResponseDTO } from './types/sign-in-refresh-token-response-dto';
 import { JWTTokenPayload } from './types/token-payload';
+import { SignOutResponseDTO } from './types/sign-out-response-dto';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,11 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
-  private async authenthicate(user: User, req: Request, res: Response) {
+  private async authenthicate(
+    user: User,
+    req: Request,
+    res: Response,
+  ): Promise<SignInResponseDTO> {
     const accessToken = await this.tokenService.generateAccessToken(user.id);
     const refreshToken = await this.tokenService.generateRefreshToken(user.id);
 
@@ -32,7 +37,17 @@ export class AuthService {
       sameSite: 'lax',
     });
 
-    return new SignInResponseDTO(user, accessToken);
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+      accessToken,
+    };
   }
 
   public async signIn(
@@ -133,8 +148,12 @@ export class AuthService {
     return new SignInRefreshTokenResponseDTO(user, accessToken);
   }
 
-  public async signOut(req: Request, res: Response): Promise<void> {
+  public async signOut(
+    req: Request,
+    res: Response,
+  ): Promise<SignOutResponseDTO> {
     const cookies = new Cookies(req, res);
     cookies.set(Constants.REFRESH_TOKEN_COOKIE_KEY, null);
+    return { success: true };
   }
 }

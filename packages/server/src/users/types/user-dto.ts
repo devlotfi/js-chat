@@ -19,4 +19,13 @@ export class UserDTO implements Partial<User> {
 
   @ApiProperty({ type: () => Date })
   public updatedAt: Date;
+
+  public constructor(data: Omit<User, 'password'>) {
+    this.id = data.id;
+    this.email = data.email;
+    this.username = data.username;
+    this.profilePicture = data.profilePicture;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.createdAt;
+  }
 }

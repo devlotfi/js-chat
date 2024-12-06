@@ -221,6 +221,9 @@ export interface components {
             user: components["schemas"]["UserDTO"];
             accessToken: string;
         };
+        SignOutResponseDTO: {
+            success: boolean;
+        };
         UserPublicDTO: {
             id: string;
             username: string;
@@ -354,7 +357,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["SignOutResponseDTO"];
+                };
             };
         };
     };

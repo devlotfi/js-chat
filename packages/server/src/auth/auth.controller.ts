@@ -6,6 +6,7 @@ import { SignInResponseDTO } from './types/sign-in-response-dto';
 import { ApiExcpetion } from 'src/shared/api-exception';
 import { Request, Response } from 'express';
 import { SignInRefreshTokenResponseDTO } from './types/sign-in-refresh-token-response-dto';
+import { SignOutResponseDTO } from './types/sign-out-response-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -41,11 +42,13 @@ export class AuthController {
   }
 
   @Post('/sign-out')
-  @ApiOkResponse()
+  @ApiOkResponse({
+    type: () => SignOutResponseDTO,
+  })
   public async signOut(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<void> {
-    await this.authService.signOut(req, res);
+  ): Promise<SignOutResponseDTO> {
+    return await this.authService.signOut(req, res);
   }
 }

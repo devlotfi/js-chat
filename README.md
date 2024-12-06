@@ -5,24 +5,37 @@
 # 📜 js-chat
 A simple chat app that uses google accounts
 
-<p float="left">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/html.svg">
-<img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nodejs.svg">
-<img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nodejs.svg">
-  <img height="50px" src="https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png">
-<img height="50px" src="https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png">
-<img height="50px" src="https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png">
-<img height="50px" src="https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png">
-<img height="50px" src="https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png">
-</p>
-
 # 📌 Contents
 - [Tech stack](#-tech-stack)
 - [Project setup](#-project-setup)
 - [Preview](#-preview)
 
 # 💻 Tech stack
-<img src="https://skillicons.dev/icons?i=html,css,typescript,tailwind,react,nodejs,nest,postgres,redis,prisma,socket.io&perline=5" />
+
+## Frontend
+
+<p float="left">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/html.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/css.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/ts.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/tailwind.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/react.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/fontawesome.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/formik.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nextui.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/reactquery.svg">
+</p>
+
+## Backend
+
+<p float="left">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nodejs.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nestjs.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/redis.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/prisma.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/socketio.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/jwt.svg">
+</p>
 
 # 📂 Project Setup
 

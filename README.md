@@ -33,9 +33,16 @@ A simple chat app that uses google accounts
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nestjs.svg">
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/redis.svg">
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/prisma.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/socketio.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/jwt.svg">
 </p>
+
+## Other
+
+<p float="left">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/jwt.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/socketio.svg">
+  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/googleoauth.svg">
+</p>
+
 
 # 📂 Project Setup
 

@@ -55,7 +55,7 @@ A simple chat app that uses google accounts
 ## Install
 
 ```bash
-$ pnpm
+$ pnpm i
 ```
 
 ## Development

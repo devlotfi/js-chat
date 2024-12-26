@@ -1,11 +1,11 @@
 <img height="100px" width="100px" src="https://github.com/devlotfi/js-chat/blob/main/github-assets/logo.svg">
 
-
-
 # 📜 js-chat
+
 A simple chat app that uses google accounts
 
 # 📌 Contents
+
 - [Tech stack](#-tech-stack)
 - [Project setup](#-project-setup)
 - [Preview](#-preview)
@@ -45,17 +45,17 @@ A simple chat app that uses google accounts
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/googleoauth.svg">
 </p>
 
-
 # 📂 Project Setup
 
 ## Requirements
+
 - Node JS
-- Yarn
+- pnpm
 
 ## Install
 
 ```bash
-$ yarn
+$ pnpm
 ```
 
 ## Development
@@ -64,10 +64,10 @@ First have to configure the ENV variables first on the server and client and run
 
 ```bash
 # Run in server folder
-$ yarn run start:dev
+$ pnpm run start:dev
 
 # Run in web folder
-$ yarn run dev
+$ pnpm run dev
 ```
 
 # 📷 Preview

@@ -24,6 +24,7 @@ A simple chat app that uses google accounts
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/formik.svg">
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nextui.svg">
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/reactquery.svg">
+   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/react-router.svg">
   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/vite.svg">
 </p>
 

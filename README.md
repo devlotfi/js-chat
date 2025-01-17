@@ -15,35 +15,35 @@ A simple chat app that uses google accounts
 ## Frontend
 
 <p float="left">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/html.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/css.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/ts.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/tailwind.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/react.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/fontawesome.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/formik.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nextui.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/reactquery.svg">
-   <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/react-router.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/vite.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/html.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/css.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/ts.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/tailwind.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/react.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/fontawesome.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/formik.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/nextui.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/reactquery.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/react-router.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/vite.svg">
 </p>
 
 ## Backend
 
 <p float="left">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nodejs.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/nestjs.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/redis.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/prisma.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/postgres.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/nodejs.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/nestjs.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/redis.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/prisma.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/postgres.svg">
 </p>
 
 ## Other
 
 <p float="left">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/jwt.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/socketio.svg">
-  <img height="50px" src="https://github.com/devlotfi/stack-icons/blob/main/icons/googleoauth.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/jwt.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/socketio.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/googleoauth.svg">
 </p>
 
 # 📂 Project Setup

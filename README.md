@@ -1,4 +1,4 @@
-<img height="100px" width="100px" src="https://github.com/devlotfi/js-chat/blob/main/github-assets/logo.svg">
+<img height="100px" width="100px" src="https://raw.githubusercontent.com/devlotfi/js-chat/main/github-assets/logo.svg">
 
 # 📜 js-chat
 
@@ -23,7 +23,7 @@ A simple chat app that uses google accounts
   <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/fontawesome.svg">
   <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/formik.svg">
   <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/nextui.svg">
-  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/reactquery.svg">
+  <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/tanstack-query.svg">
   <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/react-router.svg">
   <img height="50px" src="https://devlotfi.github.io/stack-icons/icons/vite.svg">
 </p>
@@ -73,5 +73,5 @@ $ pnpm run dev
 
 # 📷 Preview
 
-<img src="https://github.com/devlotfi/js-chat/blob/main/github-assets/preview-1.png">
-<img src="https://github.com/devlotfi/js-chat/blob/main/github-assets/preview-2.png">
+<img src="https://raw.githubusercontent.com/devlotfi/js-chat/main/github-assets/preview-1.png">
+<img src="https://raw.githubusercontent.com/devlotfi/js-chat/main/github-assets/preview-2.png">
